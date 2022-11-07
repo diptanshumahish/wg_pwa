@@ -1,3 +1,133 @@
-#container {
-    height: 100%;
+#top {
+    padding: 1rem 3rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+#logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+#profilePic {
+    width: 2rem;
+    height: 2rem;
+    background-color: aquamarine;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: rgba(100, 100, 111, 0.571) 0px 7px 29px 0px;
+}
+
+#out {
+    width: 100%;
+    display: flex;
+    height: max-content;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+#box {
+    width: 95%;
+    height: 95%;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    padding: 2rem 5rem;
+    color: white;
+    font-size: 2rem;
+    justify-content: space-between;
+    background-color: var(--themeSec);
+    box-shadow: rgba(100, 100, 111, 0.571) 0px 7px 29px 0px;
+
+
+}
+
+#leftBox {
+    height: max-content;
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+}
+
+#leftBox span {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+#startWork {
+    width: fit-content;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    color: var(--themeColor);
+    font-weight: bold;
+    border-radius: 0.5rem;
+    box-shadow: rgba(100, 100, 111, 0.571) 0px 7px 29px 0px;
+    cursor: pointer;
+}
+
+#startWork:hover {
+    scale: 1.01;
+    transition: 200ms ease;
+}
+
+#mainContentCenter {
+    height: 100vh;
+    width: 100vw;
+    padding: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#innerError {
+    background-color: red;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+#innerError span {
+    background-color: white;
+    color: red;
+    line-height: 2;
+    padding: 0 1rem;
+    border-radius: 0.1rem 0.2rem;
+    cursor: pointer;
+}
+
+#trigger {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+#triggerBack {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.2rem;
+    transition: 400ms ease;
+    box-shadow: rgba(100, 100, 111, 0.571) 0px 7px 29px 0px;
+}
+
+.triggerItem {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-weight: 500;
+}
+
+.triggerItem:hover {
+    background-color: rgb(212, 206, 206);
+}
+
+.triggerItem:active {
+    border: none;
 }
