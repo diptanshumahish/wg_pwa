@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
-
+  const [screen, changeScreen] = useState(true);
   var em = '';
   var pass = '';
   const app = initFirebase();
@@ -16,7 +16,9 @@ export default function Home() {
   const [right1, changeright1] = useState(-900);
   const [right2, changeright2] = useState(-900);
 
+
   return (
+
     <div className={styles.container}>
       <Head>
         <title>Work @ WGLLC</title>
@@ -27,65 +29,125 @@ export default function Home() {
         <meta name="apple-mobile-web-app-title" content="Warriors Group LLC @work" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main>
+
         <div id="LoginPage">
-          <div id="maincont">
-            <Image src='/pwatrans.png' width={300} height={300} />
-            <div id="head">Warriors Group LLC</div>
-            <div id="subt">Login</div>
-            <div className="subs">
-              Enter your registered email
-            </div>
-            <input type="email" name="reg_email" id="em" className="inp" placeholder='Email'
-              onChange={() => {
-                em = document.getElementById("em").value;
-                changeright(-900)
+          {screen ?
+            <div id="maincont">
+              <Image src='/pwatrans.png' width={300} height={300} />
+              <div id="head">Warriors Group LLC</div>
+              <div id="subt">Login</div>
+              <div className="subs">
+                Enter your registered email
+              </div>
+              <input type="email" name="reg_email" id="em" className="inp" placeholder='Email'
+                onChange={() => {
+                  em = document.getElementById("em").value;
+                  changeright(-900)
+                  changeright1(-900)
+                  changeright2(-900)
+
+                }} />
+
+              <div className="subs">
+                Enter your password
+              </div>
+              <input type="text" className="inp" placeholder='password' id='pass' onChange={() => {
+                pass = document.getElementById("pass").value;
+                changeright(-900);
                 changeright1(-900)
                 changeright2(-900)
 
               }} />
+              <div className="subs" id="forget" onClick={() => { changeScreen(false) }}
 
-            <div className="subs">
-              Enter your password
+              >Forgot password?</div>
+              <div id="butt" onClick={
+                function log() {
+                  signInWithEmailAndPassword(auth, em, pass)
+                    .then((userCred) => {
+                      var user = userCred;
+                      console.log(user);
+                    }).catch((error) => {
+                      var err = error.code;
+                      var errmsg = error.message;
+                      changeright(0);
+                      changeright1(-900);
+                      changeright2(-900);
+
+                    })
+                }
+              } >Login</div>
+
+            </div> : <div id="maincont">
+              <Image src='/pwatrans.png' width={300} height={300} />
+              <div id="head">Warriors Group LLC</div>
+              <div id="subt">Password Reset</div>
+              <div className="subs">
+                Enter your registered email
+              </div>
+              <input type="email" name="reg_email" id="em" className="inp" placeholder='Email'
+                onChange={() => {
+                  em = document.getElementById("em").value;
+
+                  changeright1(-900);
+                  changeright(-900);
+                  changeright2(-900)
+
+
+                }} />
+
+              <div id="back" onClick={() => {
+                changeScreen(true)
+              }}
+              >Back to login</div>
+
+              <div id="butt" onClick={
+                async function reset() {
+                  if (em != '') {
+                    sendPasswordResetEmail(auth, em).then(() => {
+                      changeright1(0);
+                      console.log(screen);
+                    })
+                  } else {
+                    changeright2(0);
+                    console.log(screen);
+                  }
+                }
+              } >Reset Password</div>
+
+
             </div>
-            <input type="text" className="inp" placeholder='password' id='pass' onChange={() => {
-              pass = document.getElementById("pass").value;
-              changeright(-900);
-              changeright1(-900)
-              changeright2(-900)
+          }
 
-            }} />
-            <Link href='/forgot'>  <div className="subs" id="forget"
 
-            >Forgot password?</div></Link>
-            <div id="butt" onClick={
-              function log() {
-                signInWithEmailAndPassword(auth, em, pass)
-                  .then((userCred) => {
-                    var user = userCred;
-                    console.log(user);
-                  }).catch((error) => {
-                    var err = error.code;
-                    var errmsg = error.message;
-                    changeright(0);
-                    changeright1(-900);
-                    changeright2(-900);
 
-                  })
-              }
-            } >Login</div>
-         
-          </div>
+
         </div>
 
         <div id="error" style={{ right: right }} >
           invalid email/password 😕 , Please try again
         </div>
+        <div id="reset" style={{ right: right1 }} >
+          Password reset link sent
+        </div>
+        <div id="noemail" style={{ right: right2 }} >
+          Please enter your registered email in the email field
+        </div>
 
-      </main>
+      </main >
 
 
-    </div>
+    </div >
+
 
   )
+
+
+
+
+
+
+
 }
