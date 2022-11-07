@@ -131,3 +131,15 @@
 .triggerItem:active {
     border: none;
 }
+
+#dateTime {
+    padding: 4rem;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--themeColor);
+}
+
+#dateTime span {
+    font-size: 1.5rem;
+
+}

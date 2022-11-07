@@ -7,14 +7,20 @@ import { getAuth, signOut } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import moment from 'moment';
 
 
 export default function Dashboard() {
     var router = useRouter();
     const auth = getAuth();
     const [log, changeLog] = useState(false);
+
     useEffect(() => {
-        Cookies.get('isLogged') == 'logged' ? changeLog(true) : changeLog(false)
+        Cookies.get('isLogged') == 'logged'
+            ? changeLog(true)
+            : changeLog(false);
+
+
     }, [])
     return (
         <div id={s.container}>
@@ -74,6 +80,11 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             </div>
+                            <div id={s.dateTime}>
+                                {moment().format('Do MMMM  YYYY ')} <br />
+                                <span>{moment().format('hh:mm a ')}</span>
+                            </div>
+
                         </div>
 
                 }
