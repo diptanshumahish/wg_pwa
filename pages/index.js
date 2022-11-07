@@ -4,9 +4,12 @@ import styles from '../styles/Home.module.css'
 import { initFirebase } from '../src/config'
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+// import Link from 'next/link';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+  const router = useRouter();
   const [screen, changeScreen] = useState(true);
   var em = '';
   var pass = '';
@@ -35,13 +38,13 @@ export default function Home() {
         <div id="LoginPage">
           {screen ?
             <div id="maincont">
-              <Image src='/pwatrans.png' width={300} height={300} />
+              <Image src='/pwatrans.png' width={300} height={300} alt='warriors logo' />
               <div id="head">Warriors Group LLC</div>
               <div id="subt">Login</div>
               <div className="subs">
                 Enter your registered email
               </div>
-              <input type="email" name="reg_email" id="em" className="inp" placeholder='Email'
+              <input type="email" name="reg_email" id="em" className="inp" placeholder='Email' required
                 onChange={() => {
                   em = document.getElementById("em").value;
                   changeright(-900)
@@ -53,14 +56,17 @@ export default function Home() {
               <div className="subs">
                 Enter your password
               </div>
-              <input type="text" className="inp" placeholder='password' id='pass' onChange={() => {
+              <input type="password" className="inp" placeholder='password' id='pass' required onChange={() => {
                 pass = document.getElementById("pass").value;
                 changeright(-900);
                 changeright1(-900)
                 changeright2(-900)
 
               }} />
-              <div className="subs" id="forget" onClick={() => { changeScreen(false) }}
+              <div className="subs" id="forget" onClick={() => {
+                changeScreen(false);
+                console.log(auth);
+              }}
 
               >Forgot password?</div>
               <div id="butt" onClick={
@@ -68,7 +74,16 @@ export default function Home() {
                   signInWithEmailAndPassword(auth, em, pass)
                     .then((userCred) => {
                       var user = userCred;
-                      console.log(user);
+                      Cookies.set('isLogged', 'logged', { expires: 1 / 24 });
+                      console.log(Cookies.get('isLogged'));
+                      router.push('/dashboard')
+
+                      if (user.user.emailVerified == false) {
+                        sendEmailVerification(auth.currentUser)
+                          .then(() => {
+
+                          });
+                      }
                     }).catch((error) => {
                       var err = error.code;
                       var errmsg = error.message;
@@ -81,7 +96,7 @@ export default function Home() {
               } >Login</div>
 
             </div> : <div id="maincont">
-              <Image src='/pwatrans.png' width={300} height={300} />
+              <Image src='/pwatrans.png' width={300} height={300} alt='warriors logo' />
               <div id="head">Warriors Group LLC</div>
               <div id="subt">Password Reset</div>
               <div className="subs">
@@ -98,7 +113,7 @@ export default function Home() {
 
                 }} />
 
-              <div id="back" onClick={() => {
+              <div id="back" className="subs" onClick={() => {
                 changeScreen(true)
               }}
               >Back to login</div>

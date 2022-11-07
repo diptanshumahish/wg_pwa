@@ -88,7 +88,8 @@ main {
   outline: none;
 }
 
-#forget {
+#forget,
+#back {
   text-align: right;
   font-weight: 600;
   color: var(--themeColor);
@@ -143,14 +144,4 @@ main {
   border-radius: 0.2rem 0 0 0.2rem;
 
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
-#img {
-  position: absolute;
-  bottom: 20vh;
-  right: 0;
-}
-
-#img img {
-  height: auto;
 }
