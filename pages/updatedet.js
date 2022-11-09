@@ -33,10 +33,21 @@ export default function UpdateUser() {
 
 
     //upload image
-    function changeImage(e) {
-        if (e.target.files[0]) {
-            setPhoto(e.target.files[0])
-        }
+    async function changeImage(e) {
+        setPhoto(e.target.files[0]);
+        await upload(photo, auth.currentUser, setLoading);
+        console.log("photo done");
+        const image = ref(storage, 'profilePics/' + auth.currentUser.uid + '.png');
+        var newUrl = '';
+        await getDownloadURL(image)
+            .then(function (url) {
+                newUrl = url;
+                changeUrl(newUrl);
+            });
+        changeUrl(newUrl);
+       
+
+
     }
     async function updateDetails() {
         await upload(photo, auth.currentUser, setLoading);
@@ -44,10 +55,9 @@ export default function UpdateUser() {
         const image = ref(storage, 'profilePics/' + auth.currentUser.uid + '.png');
         var newUrl = '';
         await getDownloadURL(image).then(function (url) {
-            newUrl = url;
-            console.log(newUrl);
+            changeUrl(url);
         })
-        changeUrl(newUrl);
+
         console.log(newUrl);
         // updateProfile(auth.currentUser, { photoURL: image });
         console.log(auth.currentUser.photoURL);
