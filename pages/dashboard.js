@@ -14,6 +14,8 @@ export default function Dashboard() {
     var router = useRouter();
     const auth = getAuth();
     const [log, changeLog] = useState(false);
+    const profile = auth.currentUser.photoURL;
+    const personName= auth.currentUser.displayName;
 
     useEffect(() => {
         Cookies.get('isLogged') == 'logged'
@@ -43,15 +45,16 @@ export default function Dashboard() {
                         :
                         <div id={s.mainContent}>
                             <div id={s.top}>
-                                <div id={s.logo}>Warriors Group LLC.</div>
-                                <div id={s.profile}>
+                                <div id={s.logo} >Warriors Group LLC.</div>
+                                <div id={s.profile} >
                                     <DropdownMenu.Root>
                                         <DropdownMenu.Trigger id={s.trigger}>
-                                            <div id={s.profilePic}
+                                            <div id={s.profilePic} style={{ backgroundImage: `url(${profile})` }}
                                             ></div>
                                         </DropdownMenu.Trigger>
                                         <DropdownMenu.Content id={s.triggerBack}>
-                                            <DropdownMenu.Item className={s.triggerItem}>Profile</DropdownMenu.Item>
+                                            <DropdownMenu.Item className={s.triggerItem}><Link href='/updatedet'>
+                                                Profile</Link></DropdownMenu.Item>
                                             <DropdownMenu.Item className={s.triggerItem}><div onClick={() => {
                                                 signOut(auth).
                                                     then(() => {
@@ -69,7 +72,7 @@ export default function Dashboard() {
                                 <div id={s.box}>
                                     <div id={s.leftBox}>
                                         Welcome, <br />
-                                        <span>Person Name</span>
+                                        <span>{`${personName}`}</span>
                                         Have a nice day 😊
                                         <div id={s.startWork}>
                                             Begin Work

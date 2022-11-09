@@ -1,9 +1,10 @@
 import Head from 'next/head';
-import { getAuth } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import s from '../styles/updatedet.module.css';
-import { getStorage, ref, uploadBytes, updateProfile, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 export default function UpdateUser() {
@@ -11,56 +12,73 @@ export default function UpdateUser() {
     const defaultImage = '/assets/def.png';
     const [pic, changeUrl] = useState(defaultImage);
     const [load, setLoading] = useState(false);
+    //for checking wehther updated a profile pic or not
+    const [pp, changePp] = useState(false);
+    const [name, NameChange] = useState(false);
+    const [mobile, changeMob] = useState(false);
     const auth = getAuth();
     const storage = getStorage();
-
+    var fullName = '';
+    var phoneNum = '';
 
     async function upload(file, currentUser, setLoading) {
         const fileRef = ref(storage, 'profilePics/' + auth.currentUser.uid + '.png');
         const snpashot = await uploadBytes(fileRef, file);
         setLoading(false);
-        // const photo = await getDownloadURL(snpashot);
 
     }
-
-
     useEffect(() => {
         if (auth.currentUser.photoURL != null) {
             changeUrl(auth.currentUser.photoURL);
         }
     }, [auth.currentUser])
 
-
-
-    //upload image
+    //upload all
     async function changeImage(e) {
+
         setPhoto(e.target.files[0]);
-        await upload(photo, auth.currentUser, setLoading);
-        console.log("photo done");
-        const image = ref(storage, 'profilePics/' + auth.currentUser.uid + '.png');
-        var newUrl = '';
-        await getDownloadURL(image)
-            .then(function (url) {
-                newUrl = url;
-                changeUrl(newUrl);
-            });
-        changeUrl(newUrl);
-       
+        changePp(true);
+
+
 
 
     }
-    async function updateDetails() {
-        await upload(photo, auth.currentUser, setLoading);
-        console.log("photo done");
-        const image = ref(storage, 'profilePics/' + auth.currentUser.uid + '.png');
-        var newUrl = '';
-        await getDownloadURL(image).then(function (url) {
-            changeUrl(url);
-        })
+    async function updateDetails(fName, phone) {
+        var pic = ''
+        if (pp == true) {
+            await upload(photo, auth.currentUser, setLoading);
+            const image = ref(storage, 'profilePics/' + auth.currentUser.uid + '.png');
+            await getDownloadURL(image).then(function (url) {
+                pic = url;
+                changeUrl(url);
+                updateProfile(auth.currentUser, {
+                    photoURL: url
+                })
+            });
+        }
+        if (fName == '') {
+            updateProfile(auth.currentUser, {
+                photoURL: pic, phoneNumber: phone
+            })
+        } else if (pp == false) {
+            updateProfile(auth.currentUser, {
+                phoneNumber: phone, displayName: fName
+            })
+        } else if (phone = '') {
+            updateProfile(auth.currentUser, {
+                photoURL: pic, displayName: fName
+            })
+        } else if (fName = '' && pp == false) {
+            updateProfile(auth.currentUser, {
+                phoneNumber: phone
+            })
+        } else if (phone == '' && pp == false) {
+            updateProfile(auth.currentUser, {
+                displayName: fName
+            })
+        }
 
-        console.log(newUrl);
-        // updateProfile(auth.currentUser, { photoURL: image });
-        console.log(auth.currentUser.photoURL);
+
     }
     return (
         <div id={s.container}>
@@ -76,14 +94,24 @@ export default function UpdateUser() {
                     <div className={s.head}>
                         Your Full Name
                     </div>
-                    <input type="text" value="" className={s.inp} required placeholder='Enter your full name' />
+                    <input type="text" className={s.inp} id="fname" required placeholder='Enter your full name' onChange={() => {
+                        fullName = document.getElementById("fname").value;
+                        console.log(fullName)
+                    }} />
                     <div className={s.head}>
                         Your phone number
                     </div>
-                    <input type="tel" className={s.inp} required placeholder='Your phone number' />
+                    <input type="tel" className={s.inp} id="phone" required placeholder='Your phone number' onChange={() => {
+                        phoneNum = document.getElementById("phone").value;
+                    }} />
                     <div disbaled={load} id={s.submit} onClick={() => {
-                        updateDetails();
+                        updateDetails(fullName, phoneNum);
                     }}>Update</div>
+
+                    <div id={s.continue}>
+                        <Link href='/dashboard'>Continue
+                        </Link></div>
+                    <div id={s.info}>(Click on update to see a preview of the uploaded Profile Pic <br /> and Update details , then click on continue)</div>
                 </div>
             </main>
         </div>

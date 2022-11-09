@@ -79,7 +79,8 @@
     border-radius: 0.2rem;
 }
 
-#submit {
+#submit,
+#continue {
     background-color: var(--themeSec);
     margin-top: 1rem;
     width: 100%;
@@ -88,4 +89,16 @@
     text-align: center;
     border-radius: 0.2rem;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    cursor: pointer;
+}
+
+#continue {
+    background-color: var(--themeColor);
+
+}
+
+#info {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: grey;
 }
