@@ -74,9 +74,18 @@ export default function Home() {
                   signInWithEmailAndPassword(auth, em, pass)
                     .then((userCred) => {
                       var user = userCred;
+                      // console.log(user);
+                      // console.log(auth.currentUser.displayName);
                       Cookies.set('isLogged', 'logged', { expires: 1 / 24 });
-                      console.log(Cookies.get('isLogged'));
-                      router.push('/dashboard')
+                      if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null) {
+
+                        router.push('/updatedet')
+                        console.log(auth.currentUser.displayName);
+                      } else {
+
+                        router.push('/dashboard')
+                        console.log(auth.currentUser.displayName);
+                      }
 
                       if (user.user.emailVerified == false) {
                         sendEmailVerification(auth.currentUser)
