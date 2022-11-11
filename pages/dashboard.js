@@ -14,8 +14,6 @@ export default function Dashboard() {
     var router = useRouter();
     const auth = getAuth();
     const [log, changeLog] = useState(false);
-    const profile = auth.currentUser.photoURL;
-    const personName = auth.currentUser.displayName;
 
     useEffect(() => {
         Cookies.get('isLogged') == 'logged'
@@ -49,7 +47,7 @@ export default function Dashboard() {
                                 <div id={s.profile} >
                                     <DropdownMenu.Root>
                                         <DropdownMenu.Trigger id={s.trigger}>
-                                            <div id={s.profilePic} style={{ backgroundImage: `url(${profile})` }}
+                                            <div id={s.profilePic} style={{ backgroundImage: `url(${auth.currentUser.photoURL})` }}
                                             ></div>
                                         </DropdownMenu.Trigger>
                                         <DropdownMenu.Content id={s.triggerBack}>
@@ -71,7 +69,7 @@ export default function Dashboard() {
                                 <div id={s.box}>
                                     <div id={s.leftBox}>
                                         Welcome, <br />
-                                        <span>{`${personName}`}</span>
+                                        <span>{`${auth.currentUser.displayName}`}</span>
                                         Have a nice day 😊
                                         <Link href='/workpage'>
                                             <div id={s.startWork}>

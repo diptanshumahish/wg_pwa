@@ -13,10 +13,9 @@ export default function Feedback() {
     //variables that will store the data to be inputted
     var feedback = '';
     var name = '';
-    var currentEmail = auth.currentUser.email;
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ')
     async function update() {
-        setDoc(doc(db, "Feedback", `${currentEmail} + ${mom}`), {
+        setDoc(doc(db, "Feedback", `${auth.currentUser.email} + ${mom}`), {
             Name: name,
             Feedback: feedback
         }, { merge: true, mergeFields: true }).then(() => {

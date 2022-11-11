@@ -9,6 +9,9 @@ import Router from "next/router";
 export default function Work() {
     const auth = getAuth();
     const router = Router;
+    if (auth != null) {
+        var usName = auth.currentUser.displayName
+    }
 
 
     return (
@@ -70,7 +73,7 @@ export default function Work() {
                                     })
                             }}>
                                 Logout <br />
-                                <span id={s.log}>(Logged in as  {auth.currentUser.displayName})</span>
+                                <span id={s.log}>(Logged in as  {usName})</span>
                             </div></Link>
                     </div>
                     <div id={s.image}  >
