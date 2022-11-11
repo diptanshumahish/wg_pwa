@@ -145,3 +145,62 @@ main {
 
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
+/* form specific css  */
+#genback {
+  padding: 2rem;
+  font-size: 2rem;
+  font-weight: 600;
+  background-color: var(--themeSec);
+  color: white;
+}
+
+#mainFormArea {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#form {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.formEle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+}
+
+.formInp {
+  padding: 0.7rem;
+  border-radius: 0.3rem;
+  border: none;
+  resize: none;
+  background-color: rgba(128, 128, 128, 0.155);
+}
+
+.formInp:focus {
+  outline: none;
+  background-color: #7d4aaa48;
+  box-shadow: rgba(100, 100, 111, 0.105) 0px 7px 29px 0px;
+}
+
+.formBut {
+  border: none;
+  margin-top: 1rem;
+  border-radius: 0.3rem;
+  padding: 0.8rem;
+  background-color: var(--themeSec);
+  color: white;
+  font-size: 1.1rem;
+  box-shadow: rgba(100, 100, 111, 0.489) 0px 7px 29px 0px;
+
+}
+
+#helpp {
+  padding: 1rem 0;
+  font-size: 0.8rem;
+}

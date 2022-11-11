@@ -15,7 +15,7 @@ export default function Dashboard() {
     const auth = getAuth();
     const [log, changeLog] = useState(false);
     const profile = auth.currentUser.photoURL;
-    const personName= auth.currentUser.displayName;
+    const personName = auth.currentUser.displayName;
 
     useEffect(() => {
         Cookies.get('isLogged') == 'logged'
@@ -53,8 +53,7 @@ export default function Dashboard() {
                                             ></div>
                                         </DropdownMenu.Trigger>
                                         <DropdownMenu.Content id={s.triggerBack}>
-                                            <DropdownMenu.Item className={s.triggerItem}><Link href='/updatedet'>
-                                                Profile</Link></DropdownMenu.Item>
+
                                             <DropdownMenu.Item className={s.triggerItem}><div onClick={() => {
                                                 signOut(auth).
                                                     then(() => {
@@ -74,9 +73,11 @@ export default function Dashboard() {
                                         Welcome, <br />
                                         <span>{`${personName}`}</span>
                                         Have a nice day 😊
-                                        <div id={s.startWork}>
-                                            Begin Work
-                                        </div>
+                                        <Link href='/workpage'>
+                                            <div id={s.startWork}>
+                                                Begin Work
+                                            </div>
+                                        </Link>
                                     </div>
                                     <div id={s.rightBox}>
                                         <Image src='/welcome.svg' width={300} height={300} alt='Welcome image'></Image>

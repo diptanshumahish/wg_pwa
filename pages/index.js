@@ -77,7 +77,7 @@ export default function Home() {
                       // console.log(user);
                       // console.log(auth.currentUser.displayName);
                       Cookies.set('isLogged', 'logged', { expires: 1 / 24 });
-                      if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null) {
+                      if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
 
                         router.push('/updatedet')
                         console.log(auth.currentUser.displayName);

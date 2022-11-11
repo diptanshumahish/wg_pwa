@@ -52,32 +52,11 @@ export default function UpdateUser() {
                 pic = url;
                 changeUrl(url);
                 updateProfile(auth.currentUser, {
-                    photoURL: url
+                    photoURL: url,displayName:fName,phoneNumber:phone
                 })
             });
         }
-        if (fName == '') {
-            updateProfile(auth.currentUser, {
-                photoURL: pic, phoneNumber: phone
-            })
-        } else if (pp == false) {
-            updateProfile(auth.currentUser, {
-                phoneNumber: phone, displayName: fName
-            })
-        } else if (phone = '') {
-            updateProfile(auth.currentUser, {
-                photoURL: pic, displayName: fName
-            })
-        } else if (fName = '' && pp == false) {
-            updateProfile(auth.currentUser, {
-                phoneNumber: phone
-            })
-        } else if (phone == '' && pp == false) {
-            updateProfile(auth.currentUser, {
-                displayName: fName
-            })
-        }
-
+      
 
     }
     return (
