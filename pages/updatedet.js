@@ -10,6 +10,7 @@ export default function UpdateUser() {
     const [done, changeDone] = useState('1')
     const [photo, setPhoto] = useState(null);
     const defaultImage = '/assets/def.png';
+    const [updatedImage, UpdateImg] = useState(false);
     const [pic, changeUrl] = useState(defaultImage);
     //for checking wehther updated a profile pic or not
     const [pp, changePp] = useState(false);
@@ -31,16 +32,12 @@ export default function UpdateUser() {
 
     //upload all
     async function changeImage(e) {
-
         setPhoto(e.target.files[0]);
         changePp(true);
-
-
-
-
     }
     async function updateDetails(fName, phone) {
-        var pic = ''
+        var pic = '';
+
         if (pp == true) {
             await upload(photo, auth.currentUser);
             const image = ref(storage, 'profilePics/' + auth.currentUser.uid + '.png');
@@ -52,6 +49,7 @@ export default function UpdateUser() {
                 })
             });
         }
+        UpdateImg(true);
 
 
     }
@@ -83,14 +81,17 @@ export default function UpdateUser() {
                         phoneNum = document.getElementById("phone").value;
                     }} />
                     <div id={s.submit} onClick={() => {
+
                         updateDetails(fullName, phoneNum).then(() => {
                             changeDone('0.5')
                         })
                     }} style={{ opacity: done }}>Update</div>
 
-                    <div id={s.continue}>
-                        <Link href='/dashboard'>Continue
-                        </Link></div>
+                    {
+                        updatedImage ? <div id={s.continue}>
+                            <Link href='/dashboard'> Continue
+                            </Link></div> : <div></div>
+                    }
                     <div id={s.info}>(Click on update and wait till the button becomes inactive <br /> to see a preview of the uploaded Profile Pic  and Update details, <br />  then click on continue, <b> Check your mail for a password reset link</b>)</div>
                 </div>
             </main>

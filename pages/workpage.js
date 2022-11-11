@@ -5,10 +5,20 @@ import s from "../styles/workpage.module.css"
 import Link from "next/link";
 import Image from "next/image";
 import Router from "next/router";
+import { useEffect } from "react";
 
 export default function Work() {
     const auth = getAuth();
     const router = Router;
+    useEffect(() => {
+        var int = setInterval(() => {
+            console.log("count");
+        }, 1000)
+        return () => {
+            clearInterval(int);
+            console.log("exit");
+        }
+    })
     return (
         <div id={s.container}>
             <Head>

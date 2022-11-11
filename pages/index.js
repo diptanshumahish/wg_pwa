@@ -90,11 +90,11 @@ export default function Home() {
                       if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
 
                         router.push('/updatedet')
-                        console.log(auth.currentUser.displayName);
+
                       } else {
 
                         router.push('/dashboard')
-                        console.log(auth.currentUser.displayName);
+
                       }
 
                       if (user.user.emailVerified == false) {
