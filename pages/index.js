@@ -62,10 +62,7 @@ export default function Home() {
               <input type="email" name="reg_email" id="em" className="inp" placeholder='Email' required
                 onChange={() => {
                   em = document.getElementById("em").value;
-
-
                 }} />
-
               <div className="subs">
                 Enter your password
               </div>
@@ -119,6 +116,9 @@ export default function Home() {
                         theme: "light",
                       });
                       changeLoad(1);
+                      setTimeout(() => {
+                        router.reload();
+                      }, 3000)
                     })
                 }
               } style={{ opacity: load }}>Login</div>
@@ -158,7 +158,8 @@ export default function Home() {
                         progress: undefined,
                         theme: "light",
                       });
-                      changeLoad('1')
+                      changeLoad('1');
+
 
                     })
                   } else {
@@ -174,6 +175,9 @@ export default function Home() {
                       theme: "light",
                     });
                     changeLoad('1');
+                    setTimeout(() => {
+                      router.reload();
+                    }, 2000)
 
 
                   }
