@@ -3,7 +3,6 @@ import { getAuth, updateProfile } from "firebase/auth";
 import s from '../styles/updatedet.module.css';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 
@@ -92,7 +91,7 @@ export default function UpdateUser() {
                     <div id={s.continue}>
                         <Link href='/dashboard'>Continue
                         </Link></div>
-                    <div id={s.info}>(Click on update to see a preview of the uploaded Profile Pic <br /> and Update details , then click on continue)</div>
+                    <div id={s.info}>(Click on update and wait till the button becomes inactive <br /> to see a preview of the uploaded Profile Pic  and Update details, <br />  then click on continue, <b> Check your mail for a password reset link</b>)</div>
                 </div>
             </main>
         </div>

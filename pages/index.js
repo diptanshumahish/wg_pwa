@@ -4,7 +4,8 @@ import styles from '../styles/Home.module.css'
 import { initFirebase } from '../src/config'
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from "firebase/auth";
 import { useEffect, useState } from 'react';
-// import Link from 'next/link';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 
@@ -15,14 +16,16 @@ export default function Home() {
   var pass = '';
   const app = initFirebase();
   const auth = getAuth();
-  const [right, changeright] = useState(-900);
-  const [right1, changeright1] = useState(-900);
-  const [right2, changeright2] = useState(-900);
+  const [load, changeLoad] = useState('1')
+
+
 
 
   return (
 
     <div className={styles.container}>
+
+
       <Head>
         <title>Work @ WGLLC</title>
         <meta name="application-name" content="Warriors Group Work" />
@@ -36,6 +39,18 @@ export default function Home() {
       <main>
 
         <div id="LoginPage">
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
           {screen ?
             <div id="maincont">
               <Image src='/pwatrans.png' width={300} height={300} alt='warriors logo' />
@@ -47,9 +62,7 @@ export default function Home() {
               <input type="email" name="reg_email" id="em" className="inp" placeholder='Email' required
                 onChange={() => {
                   em = document.getElementById("em").value;
-                  changeright(-900)
-                  changeright1(-900)
-                  changeright2(-900)
+
 
                 }} />
 
@@ -58,19 +71,21 @@ export default function Home() {
               </div>
               <input type="password" className="inp" placeholder='password' id='pass' required onChange={() => {
                 pass = document.getElementById("pass").value;
-                changeright(-900);
-                changeright1(-900)
-                changeright2(-900)
+
 
               }} />
               <div className="subs" id="forget" onClick={() => {
+
                 changeScreen(false);
-                console.log(auth);
+
+
               }}
 
               >Forgot password?</div>
               <div id="butt" onClick={
+
                 function log() {
+                  changeLoad('0.4');
                   signInWithEmailAndPassword(auth, em, pass)
                     .then((userCred) => {
                       var user = userCred;
@@ -93,13 +108,20 @@ export default function Home() {
                       }
                     }).catch((error) => {
 
-                      changeright(0);
-                      changeright1(-900);
-                      changeright2(-900);
-
+                      toast.warn('Invalid password/email', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                      });
+                      changeLoad(1);
                     })
                 }
-              } >Login</div>
+              } style={{ opacity: load }}>Login</div>
 
             </div> : <div id="maincont">
               <Image src='/pwatrans.png' width={300} height={300} alt='warriors logo' />
@@ -112,10 +134,6 @@ export default function Home() {
                 onChange={() => {
                   em = document.getElementById("em").value;
 
-                  changeright1(-900);
-                  changeright(-900);
-                  changeright2(-900)
-
 
                 }} />
 
@@ -125,36 +143,47 @@ export default function Home() {
               >Back to login</div>
 
               <div id="butt" onClick={
+
                 async function reset() {
+                  changeLoad('0.5');
                   if (em != '') {
                     sendPasswordResetEmail(auth, em).then(() => {
-                      changeright1(0);
-                      console.log(screen);
+                      toast.success('Password reset link sent succesfully', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                      });
+                      changeLoad('1')
+
                     })
                   } else {
-                    changeright2(0);
-                    console.log(screen);
+
+                    toast.error('Invalid email/ No email', {
+                      position: "top-right",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    });
+                    changeLoad('1');
+
+
                   }
                 }
-              } >Reset Password</div>
+              } style={{ opacity: load }}>Reset Password</div>
 
 
             </div>
           }
 
-
-
-
-        </div>
-
-        <div id="error" style={{ right: right }} >
-          invalid email/password 😕 , Please try again
-        </div>
-        <div id="reset" style={{ right: right1 }} >
-          Password reset link sent
-        </div>
-        <div id="noemail" style={{ right: right2 }} >
-          Please enter your registered email in the email field
         </div>
 
       </main >
