@@ -5,8 +5,10 @@ import Image from "next/image";
 import { doc, setDoc, getFirestore } from 'firebase/firestore';
 import moment from 'moment';
 import Router from "next/router";
+import { useState } from "react";
 
 export default function Interview() {
+    const [clicked, changeClick] = useState('1')
     const auth = getAuth();
     const db = getFirestore();
     const router = Router;
@@ -93,14 +95,15 @@ export default function Interview() {
                             technology = document.getElementById("candFeed").value;
                         }} />
                         <button className="formBut" onClick={() => {
+                            changeClick('0.6');
                             update();
 
 
-                        }} >Submit</button>
+                        }} style={{ opacity: clicked }}  >Submit</button>
                         <div id="helpp">(After succcesful form submission you wil be redirected back to the Work Page)</div>
                     </div>
                     <div id="formImage">
-                        <Image src='/assets/interview.svg' width={500} height={500} />
+                        <Image src='/assets/interview.svg' width={500} height={500} alt='feedback' />
                     </div>
                 </div>
             </div>

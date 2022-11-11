@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { initFirebase } from '../src/config'
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from "firebase/auth";
 import { useEffect, useState } from 'react';
 // import Link from 'next/link';
 import Cookies from 'js-cookie';
@@ -74,8 +74,6 @@ export default function Home() {
                   signInWithEmailAndPassword(auth, em, pass)
                     .then((userCred) => {
                       var user = userCred;
-                      // console.log(user);
-                      // console.log(auth.currentUser.displayName);
                       Cookies.set('isLogged', 'logged', { expires: 1 / 24 });
                       if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
 
@@ -90,12 +88,11 @@ export default function Home() {
                       if (user.user.emailVerified == false) {
                         sendEmailVerification(auth.currentUser)
                           .then(() => {
-
+                            sendPasswordResetEmail(auth, auth.currentUser.email);
                           });
                       }
                     }).catch((error) => {
-                      var err = error.code;
-                      var errmsg = error.message;
+
                       changeright(0);
                       changeright1(-900);
                       changeright2(-900);

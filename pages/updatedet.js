@@ -8,23 +8,20 @@ import Link from 'next/link';
 
 
 export default function UpdateUser() {
+    const [done, changeDone] = useState('1')
     const [photo, setPhoto] = useState(null);
     const defaultImage = '/assets/def.png';
     const [pic, changeUrl] = useState(defaultImage);
-    const [load, setLoading] = useState(false);
     //for checking wehther updated a profile pic or not
     const [pp, changePp] = useState(false);
-    const [name, NameChange] = useState(false);
-    const [mobile, changeMob] = useState(false);
     const auth = getAuth();
     const storage = getStorage();
     var fullName = '';
     var phoneNum = '';
 
-    async function upload(file, currentUser, setLoading) {
+    async function upload(file, currentUser) {
         const fileRef = ref(storage, 'profilePics/' + auth.currentUser.uid + '.png');
         const snpashot = await uploadBytes(fileRef, file);
-        setLoading(false);
 
     }
     useEffect(() => {
@@ -46,21 +43,24 @@ export default function UpdateUser() {
     async function updateDetails(fName, phone) {
         var pic = ''
         if (pp == true) {
-            await upload(photo, auth.currentUser, setLoading);
+            await upload(photo, auth.currentUser);
             const image = ref(storage, 'profilePics/' + auth.currentUser.uid + '.png');
             await getDownloadURL(image).then(function (url) {
                 pic = url;
                 changeUrl(url);
                 updateProfile(auth.currentUser, {
-                    photoURL: url,displayName:fName,phoneNumber:phone
+                    photoURL: url, displayName: fName, phoneNumber: phone
                 })
             });
         }
-      
+
 
     }
     return (
         <div id={s.container}>
+            <Head>
+                <title>Update Details</title>
+            </Head>
             <main>
                 <h2>Please Update your profile details</h2>
                 <div id={s.miniform}>
@@ -83,9 +83,11 @@ export default function UpdateUser() {
                     <input type="tel" className={s.inp} id="phone" required placeholder='Your phone number' onChange={() => {
                         phoneNum = document.getElementById("phone").value;
                     }} />
-                    <div disbaled={load} id={s.submit} onClick={() => {
-                        updateDetails(fullName, phoneNum);
-                    }}>Update</div>
+                    <div id={s.submit} onClick={() => {
+                        updateDetails(fullName, phoneNum).then(() => {
+                            changeDone('0.5')
+                        })
+                    }} style={{ opacity: done }}>Update</div>
 
                     <div id={s.continue}>
                         <Link href='/dashboard'>Continue

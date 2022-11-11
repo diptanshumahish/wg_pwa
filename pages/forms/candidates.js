@@ -5,8 +5,10 @@ import Image from "next/image";
 import { doc, setDoc, getFirestore } from 'firebase/firestore';
 import moment from 'moment';
 import Router from "next/router";
+import { useState } from "react";
 
 export default function Candidates() {
+    const [clicked, changeClick] = useState('1')
     const auth = getAuth();
     const db = getFirestore();
     const router = Router;
@@ -152,14 +154,15 @@ export default function Candidates() {
                             comments = document.getElementById("candCom").value;
                         }} />
                         <button className="formBut" onClick={() => {
+                            changeClick('0.6')
                             update();
 
 
-                        }} >Submit</button>
+                        }} style={{ opacity: clicked }}  >Submit</button>
                         <div id="helpp">(After succcesful form submission you wil be redirected back to the Work Page)</div>
                     </div>
                     <div id="formImage">
-                        <Image src='/assets/candidate.svg' width={500} height={500} />
+                        <Image src='/assets/candidate.svg' width={500} height={500} alt='candidate' />
                     </div>
                 </div>
             </div>

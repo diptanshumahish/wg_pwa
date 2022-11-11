@@ -5,11 +5,13 @@ import Image from "next/image";
 import { doc, setDoc, getFirestore } from 'firebase/firestore';
 import moment from 'moment';
 import Router from "next/router";
+import { useState } from "react";
 
 export default function Submissions() {
     const auth = getAuth();
     const db = getFirestore();
     const router = Router;
+    const [clicked, changeClick] = useState('1')
     //variables that will store the data to be inputted
     var name = '';
     var email = '';
@@ -134,14 +136,15 @@ export default function Submissions() {
 
 
                         <button className="formBut" onClick={() => {
+                            changeClick('0.6');
                             update();
 
 
-                        }} >Submit</button>
+                        }} style={{ opacity: clicked }}>Submit</button>
                         <div id="helpp">(After succcesful form submission you wil be redirected back to the Work Page)</div>
                     </div>
                     <div id="formImage">
-                        <Image src='/assets/submit.svg' width={500} height={500} />
+                        <Image src='/assets/submit.svg' width={500} height={500} alt='submissions' />
                     </div>
                 </div>
             </div>

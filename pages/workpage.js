@@ -9,10 +9,6 @@ import Router from "next/router";
 export default function Work() {
     const auth = getAuth();
     const router = Router;
-
-
-
-
     return (
         <div id={s.container}>
             <Head>
@@ -30,13 +26,14 @@ export default function Work() {
                                     2. Make sure if you take a break , please click on the take a break option, otherwise the work time would not be calculated when the device goes idle or locked out. <br />
                                     3. Donot worry if you you get logged out , logging in will continue your session from wherever you left. <br />
                                     4. You can minimize this window and continue with your work.
+                                    5. While submutting any of the information thruogh the forms , if after clicking submit button you have network issues , please contact to admin before resubmitting
                                 </span>
                             </div>
                             <div id={s.break}>
                                 Take a Break
                             </div>
                         </div>
-                        <span id={s.mot}>Here are the few important links below</span> <br />
+                        <span id={s.mot}>Keep up the good Work!😊</span> <br />
 
                     </div>
                 </div>
@@ -72,11 +69,11 @@ export default function Work() {
                                     })
                             }}>
                                 Logout <br />
-                                {/* <span id={s.log}>(Logged in as  {getName()})</span> */}
+
                             </div></Link>
                     </div>
                     <div id={s.image}  >
-                        <Image src='/assets/working1.gif' width={500} height={500} />
+                        <Image src='/assets/working1.gif' width={500} height={500} alt='work' />
                     </div>
                 </div>
             </main>

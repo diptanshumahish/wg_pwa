@@ -195,6 +195,7 @@ main {
   padding: 0.8rem;
   background-color: var(--themeSec);
   color: white;
+  cursor: pointer;
   font-size: 1.1rem;
   box-shadow: rgba(100, 100, 111, 0.489) 0px 7px 29px 0px;
 
