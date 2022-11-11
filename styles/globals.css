@@ -90,6 +90,7 @@ main {
 
 #forget,
 #back {
+  width: max-content;
   text-align: right;
   font-weight: 600;
   color: var(--themeColor);

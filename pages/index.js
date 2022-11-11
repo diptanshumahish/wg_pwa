@@ -71,14 +71,14 @@ export default function Home() {
 
 
               }} />
-              <div className="subs" id="forget" onClick={() => {
+              <div className="subs" id="forget"
+
+              ><div onClick={() => {
 
                 changeScreen(false);
 
 
-              }}
-
-              >Forgot password?</div>
+              }}>Forgot password?</div></div>
               <div id="butt" onClick={
 
                 function log() {
