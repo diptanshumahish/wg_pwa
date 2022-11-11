@@ -26,11 +26,9 @@ export default function Candidates() {
     var link = '';
     var pay = '';
     var comments = ''
-
-    var currentEmail = auth.currentUser.email;
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ')
     async function update() {
-        setDoc(doc(db, "candidates", `${currentEmail} + ${mom}`), {
+        setDoc(doc(db, "candidates", `${auth.currentUser.email} + ${mom}`), {
             Name: name,
             Technology: tech,
             Visa: visa,

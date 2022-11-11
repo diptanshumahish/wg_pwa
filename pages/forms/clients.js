@@ -18,10 +18,9 @@ export default function Client() {
     var rec = '';
     var comments = '';
 
-    var currentEmail = auth.currentUser.email;
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ')
     async function update() {
-        setDoc(doc(db, "clients", `${currentEmail} + ${mom}`), {
+        setDoc(doc(db, "clients", `${auth.currentUser.email} + ${mom}`), {
             Name: name,
             Email: email,
             MobileNumber: mob,

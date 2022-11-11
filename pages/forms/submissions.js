@@ -22,10 +22,9 @@ export default function Submissions() {
     var candidate = '';
     var rate = '';
 
-    var currentEmail = auth.currentUser.email;
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ')
     async function update() {
-        setDoc(doc(db, "submissions", `${currentEmail} + ${mom}`), {
+        setDoc(doc(db, "submissions", `${auth.currentUser.email} + ${mom}`), {
             Date: date,
             Name: name,
             Rate: rate,

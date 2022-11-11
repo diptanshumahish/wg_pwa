@@ -21,10 +21,9 @@ export default function Interview() {
     var candidateName = '';
 
 
-    var currentEmail = auth.currentUser.email;
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ')
     async function update() {
-        setDoc(doc(db, "interviews", `${currentEmail} + ${mom}`), {
+        setDoc(doc(db, "interviews", `${auth.currentUser.email} + ${mom}`), {
             'Candidate Name': candidateName,
             'Call Duration': callDuration,
             Date: date,
