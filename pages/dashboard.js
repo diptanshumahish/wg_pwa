@@ -13,9 +13,9 @@ import moment from 'moment';
 export default function Dashboard() {
 
     var router = useRouter();
-    const auth =getAuth();
+    const auth = getAuth();
     const [log, changeLog] = useState(false);
-    useEffect(() => {        
+    useEffect(() => {
         Cookies.get('isLogged') == 'logged'
             ? changeLog(true)
             : changeLog(false);
@@ -47,7 +47,7 @@ export default function Dashboard() {
                                 <div id={s.profile} >
                                     <DropdownMenu.Root>
                                         <DropdownMenu.Trigger id={s.trigger}>
-                                            <div id={s.profilePic} style={{ backgroundImage: `url(${auth.currentUser.photoURL})` }}
+                                            <div id={s.profilePic} style={{ backgroundImage: `url(${auth.currentUser.photoURL})`, backgroundSize: 'cover' }}
                                             ></div>
                                         </DropdownMenu.Trigger>
                                         <DropdownMenu.Content id={s.triggerBack}>

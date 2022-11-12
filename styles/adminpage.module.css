@@ -1,0 +1,87 @@
+#main {
+    background-color: rgba(128, 128, 128, 0.233);
+
+}
+
+#topPanel {
+    padding: 2rem;
+    background-color: var(--themeSec);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#head {
+    color: white;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+#signout {
+    color: rgba(255, 255, 255, 0.737);
+    cursor: pointer;
+}
+
+#signout:hover {
+    color: white;
+}
+
+.secHead {
+    padding: 2rem;
+    padding-bottom: 0;
+    font-size: 1.5rem;
+    font-weight: 700
+}
+
+.addELE {
+    min-width: 300px
+}
+
+#add {
+    display: flex;
+    padding: 2rem;
+    gap: 3rem;
+}
+
+.inpHead {
+    font-size: 1.2rem;
+    padding: 1rem 0;
+    font-weight: 500;
+}
+
+.input {
+    padding: 0.5rem 2rem;
+    padding-left: 1rem;
+    border: none;
+    background-color: rgba(128, 128, 128, 0.232);
+    border-radius: 0.2rem;
+    width: 100%;
+}
+
+.input:focus {
+    outline: none;
+    background-color: #7d4aaa46;
+}
+
+.adminContent {
+    background-color: rgb(255, 255, 255);
+    margin: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+#addBack {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.submitButton {
+    padding: 0.8rem 2rem;
+    margin-right: 4rem;
+    border-radius: 0.3rem;
+    color: white;
+    font-weight: 600;
+    background-color: var(--themeSec);
+    box-shadow: rgba(100, 100, 111, 0.422) 0px 7px 29px 0px;
+    cursor: pointer;
+}
