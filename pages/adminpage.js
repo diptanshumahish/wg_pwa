@@ -5,13 +5,46 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
 import Router from "next/router";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+
+
 
 
 export default function Admin() {
+
     const router = Router;
     const auth = getAuth();
     var entEmail = '';
     var entPassword = '';
+    const db = getFirestore();
+    var idArry = [];
+    var totalDurArray = [];
+    var tempArray = []
+
+    async function getS() {
+
+        const querySnapshot = await getDocs(collection(db, "dailyWork"));
+        querySnapshot.forEach((doc) => {
+            //get legends array
+            idArry.push(doc.id);
+            //get data for each person(email)
+            var tempDoc = Object.entries(doc.data());
+            var y = 0;
+            for (let i = 0; i < tempDoc.length; i++) {
+                y += tempDoc[i][1];
+            }
+            totalDurArray.push(y);
+        });
+
+    }
+
+    async function pt() {
+        await getS();
+        console.log(idArry);
+        console.log(totalDurArray);
+    }
+    // pt();
+
 
     return (
         <div>

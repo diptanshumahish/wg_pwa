@@ -11,10 +11,6 @@ import moment from 'moment';
 
 
 export default function Dashboard() {
-
-    var router = useRouter();
-    const auth = getAuth();
-    const [log, changeLog] = useState(false);
     useEffect(() => {
         Cookies.get('isLogged') == 'logged'
             ? changeLog(true)
@@ -22,6 +18,11 @@ export default function Dashboard() {
 
 
     }, [])
+
+    var router = useRouter();
+    const auth = getAuth();
+    const [log, changeLog] = useState(false);
+
     return (
         <div id={s.container}>
             <Head>

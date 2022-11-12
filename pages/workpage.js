@@ -12,6 +12,18 @@ import moment from "moment/moment";
 
 
 export default function Work() {
+    getCurrentDuration().then((value) => {
+        count = value;
+    })
+    useEffect(() => {
+
+        return () => {
+            update().then(() => {
+                clearInterval(int);
+                clearInterval(up);
+            })
+        }
+    })
     const mom = moment().format('Do MMMM, YYYY');
     const emailFinal = Cookies.get('email');
     const db = getFirestore();
@@ -49,19 +61,7 @@ export default function Work() {
     var up = setInterval(() => {
         update();
     }, 120000)
-    useEffect(() => {
-        getCurrentDuration().then((value) => {
-            count = value;
-        })
-        return () => {
-            update().then(() => {
-                clearInterval(int);
-                clearInterval(up);
-            })
 
-            console.log(`final ${count}`);
-        }
-    })
     return (
         <div id={s.container}>
             <Head>
