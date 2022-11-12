@@ -4,6 +4,8 @@ import s from '../styles/updatedet.module.css';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function UpdateUser() {
@@ -50,6 +52,16 @@ export default function UpdateUser() {
             });
         }
         UpdateImg(true);
+        toast.success('Successfully updated the profie pic and other profile data', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
 
 
     }
@@ -59,6 +71,18 @@ export default function UpdateUser() {
                 <title>Update Details</title>
             </Head>
             <main>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
                 <h2>Please Update your profile details</h2>
                 <div id={s.miniform}>
                     <div id={s.profile} style={{ backgroundImage: `url(${pic})`, backgroundSize: 'cover' }}>

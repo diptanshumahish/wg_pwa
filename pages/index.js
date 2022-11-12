@@ -87,6 +87,7 @@ export default function Home() {
                     .then((userCred) => {
                       var user = userCred;
                       Cookies.set('isLogged', 'logged', { expires: 1 / 24 });
+                      Cookies.set('email', auth.currentUser.email);
                       if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
 
                         router.push('/updatedet')

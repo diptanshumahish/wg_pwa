@@ -6,17 +6,60 @@ import Link from "next/link";
 import Image from "next/image";
 import Router from "next/router";
 import { useEffect } from "react";
+import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
+import moment from "moment/moment";
+
+
 
 export default function Work() {
+    const mom = moment().format('Do MMMM, YYYY');
+    const emailFinal = Cookies.get('email');
+    const db = getFirestore();
+    var count = 0;
     const auth = getAuth();
     const router = Router;
+    async function update() {
+        setDoc(doc(db, "dailyWork", emailFinal), {
+            [`${mom}`]: count
+        }, { merge: true, mergeFields: true });
+    }
+    async function getCurrentDuration() {
+
+        const docRef = doc(db, 'dailyWork', emailFinal)
+        const docSnap = (await getDoc(docRef));
+        if (docSnap.exists()) {
+            var data = docSnap.data();
+            var map = Object.entries(data)
+
+            var main = map.find((item) => {
+                return item[0] === mom
+            })
+            if (main == undefined) {
+                return 0
+            } else {
+                return main[1]
+            }
+        } else {
+            return 0
+        }
+    }
+    var int = setInterval(() => {
+        count++;
+    }, 60000)
+    var up = setInterval(() => {
+        update();
+    }, 120000)
     useEffect(() => {
-        var int = setInterval(() => {
-            console.log("count");
-        }, 1000)
+        getCurrentDuration().then((value) => {
+            count = value;
+        })
         return () => {
-            clearInterval(int);
-            console.log("exit");
+            update().then(() => {
+                clearInterval(int);
+                clearInterval(up);
+            })
+
+            console.log(`final ${count}`);
         }
     })
     return (
@@ -49,7 +92,9 @@ export default function Work() {
                 </div>
                 <div id={s.mainItems}>
                     <div id={s.links}>
-                        <Link href='/forms/candidates'>
+                        <Link href='/forms/candidates' onClick={() => {
+                            update();
+                        }}>
                             <div className={s.link}>
                                 Candidates
                             </div></Link>
@@ -71,14 +116,13 @@ export default function Work() {
                             </div></Link>
                         <Link href='/'>
                             <div className={s.link} id={s.logout} onClick={() => {
-                                signOut(auth).
-                                    then(() => {
-                                        Cookies.remove('isLogged');
-                                        router.push('/');
+                                update().then(() => {
+                                    router.push('/dashboard')
+                                })
 
-                                    })
                             }}>
                                 Logout <br />
+
 
                             </div></Link>
                     </div>
