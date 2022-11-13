@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { doc, collection, getDocs, getFirestore, getDoc } from "firebase/firestore";
 import { Bar } from 'react-chartjs-2'
 import {
     Chart as ChartJS,
@@ -23,6 +23,7 @@ export default function Admin() {
     useEffect(() => {
         getLabels();
         getData();
+
     })
     ChartJS.register(
         CategoryScale,
@@ -34,15 +35,23 @@ export default function Admin() {
     );
     const router = Router;
     const auth = getAuth();
+
     var entEmail = '';
     var entPassword = '';
+
     const db = getFirestore();
     var idArry = [];
     var totalDurArray = [];
+
     const [lab, setLab] = useState([]);
     const [dat, setDat] = useState([]);
-    
-    
+    //particular
+    const [partLab, setPartLabl] = useState([]);
+    const [partDat, setPartDat] = useState([]);
+    const [partShown, setPartShown] = useState('none');
+    const [searchEmail, setEmail] = useState('');
+
+    //labels for everyone
     async function getLabels() {
         const querySnapshot = await getDocs(collection(db, "dailyWork"));
         querySnapshot.forEach((doc) => {
@@ -52,6 +61,39 @@ export default function Admin() {
         });
         setLab(idArry);
     }
+    //labels for only particular employee
+    async function getPartEmployee() {
+
+        const docRef = doc(db, 'dailyWork', searchEmail)
+        const docSnap = (await getDoc(docRef));
+        if (docSnap.exists()) {
+            var paridArray = [];
+            var parDatArray = [];
+            var data = docSnap.data();
+            var map = Object.entries(data);
+            for (let i = 0; i < map.length; i++) {
+                paridArray.push(map[i][0]);
+            }
+            setPartLabl(paridArray);
+            for (let i = 0; i < map.length; i++) {
+                parDatArray.push(map[i][1]);
+            }
+            setPartDat(parDatArray)
+        } else {
+            toast.error('Employee doesnot exist', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }
+
+    //data for everyone
     async function getData() {
         const querySnapshot = await getDocs(collection(db, "dailyWork"));
         querySnapshot.forEach((doc) => {
@@ -74,10 +116,10 @@ export default function Admin() {
             },
             title: {
                 display: true,
-                position:'bottom',
+                position: 'bottom',
                 text: 'Comparitive report of employees total production',
             },
-            
+
         },
     };
 
@@ -88,6 +130,34 @@ export default function Admin() {
             {
                 label: 'Employee production hours',
                 data: dat,
+                backgroundColor: '#7d4aaa74',
+                borderColor: '#7d4aaa',
+                borderWidth: 1,
+
+            }
+        ]
+    }
+    const options1 = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                position: 'bottom',
+                text: `report for ${searchEmail}`,
+            },
+
+        },
+    }
+    const data1 = {
+        labels: partLab,
+
+        datasets: [
+            {
+                label: 'Employee production hours',
+                data: partDat,
                 backgroundColor: '#7d4aaa74',
                 borderColor: '#7d4aaa',
                 borderWidth: 1,
@@ -189,6 +259,53 @@ export default function Admin() {
 
                     />
 
+
+                </section>
+                <section className={s.adminContent} id={s.partEle}>
+                    <div className={s.secHead}>
+                        Particular employee data
+                    </div>
+                    <div id={s.findEmp}>
+                        <div id={s.findArea}>
+                            <div className={s.findSpace}>
+                                <div className={s.inpHead}>
+                                    Email
+                                </div>
+                                <input type="email" placeholder="Enter user email" className={s.input} id="searchEmail" onChange={() => {
+                                    setEmail(document.getElementById('searchEmail').value);
+                                }} />
+                            </div>
+                            <div className={s.findSpace}>
+                                <div className={s.submitButton} onClick={
+                                    () => {
+                                        // if (searchEntEmail == '') {
+                                        //     toast.error('No email entered', {
+                                        //         position: "top-right",
+                                        //         autoClose: 5000,
+                                        //         hideProgressBar: false,
+                                        //         closeOnClick: true,
+                                        //         pauseOnHover: true,
+                                        //         draggable: true,
+                                        //         progress: undefined,
+                                        //         theme: "light",
+                                        //     });
+                                        // document.getElementById('searchEmail').value = '';
+
+                                        getPartEmployee().then(() => {
+                                            setPartShown('block');
+                                            document.getElementById('searchEmail').value = '';
+                                        })
+
+                                    }
+
+                                }>Submit</div>
+                            </div>
+                        </div>
+                    </div>
+                    <Bar style={{ display: partShown }}
+                        options={options1} data={data1}
+
+                    />
 
                 </section>
             </main>
