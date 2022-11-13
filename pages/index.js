@@ -11,7 +11,9 @@ import { useRouter } from 'next/router';
 
 export default function Home() {
   useEffect(() => {
-    if (getOS() != 'Windows' || getOS() != 'Mac OS' || getOS() != 'Linux') {
+    if (getOS() == 'Android') {
+      router.push('/er')
+    } else if (getOS() == 'iOS') {
       router.push('/er')
     }
   })
