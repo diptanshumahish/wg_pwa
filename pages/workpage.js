@@ -12,6 +12,10 @@ import moment from "moment/moment";
 
 
 export default function Work() {
+    const db = getFirestore();
+    const auth = getAuth();
+    const router = Router;
+    
     getCurrentDuration().then((value) => {
         count = value;
     })
@@ -26,10 +30,9 @@ export default function Work() {
     })
     const mom = moment().format('Do MMMM, YYYY');
     const emailFinal = Cookies.get('email');
-    const db = getFirestore();
+
     var count = 0;
-    const auth = getAuth();
-    const router = Router;
+
     async function update() {
         setDoc(doc(db, "dailyWork", emailFinal), {
             [`${mom}`]: count

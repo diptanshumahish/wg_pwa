@@ -76,7 +76,7 @@ export default function Admin() {
             }
             setPartLabl(paridArray);
             for (let i = 0; i < map.length; i++) {
-                parDatArray.push(map[i][1]);
+                parDatArray.push(Math.round((map[i][1]) / 60 * 100) / 100);
             }
             setPartDat(parDatArray)
         } else {
@@ -101,7 +101,7 @@ export default function Admin() {
             var tempDoc = Object.entries(doc.data());
             var y = 0;
             for (let i = 0; i < tempDoc.length; i++) {
-                y += tempDoc[i][1];
+                y += Math.round((tempDoc[i][1]) / 60 * 100) / 100;
             }
             totalDurArray.push(y);
         });
@@ -278,27 +278,30 @@ export default function Admin() {
                             <div className={s.findSpace}>
                                 <div className={s.submitButton} onClick={
                                     () => {
-                                        // if (searchEntEmail == '') {
-                                        //     toast.error('No email entered', {
-                                        //         position: "top-right",
-                                        //         autoClose: 5000,
-                                        //         hideProgressBar: false,
-                                        //         closeOnClick: true,
-                                        //         pauseOnHover: true,
-                                        //         draggable: true,
-                                        //         progress: undefined,
-                                        //         theme: "light",
-                                        //     });
-                                        // document.getElementById('searchEmail').value = '';
-
-                                        getPartEmployee().then(() => {
-                                            setPartShown('block');
+                                        if (searchEmail == '') {
+                                            toast.error('No email entered', {
+                                                position: "top-right",
+                                                autoClose: 5000,
+                                                hideProgressBar: false,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                                theme: "light",
+                                            });
                                             document.getElementById('searchEmail').value = '';
-                                        })
+                                        }
+                                        else {
+                                            getPartEmployee().then(() => {
+                                                setPartShown('block');
+                                                document.getElementById('searchEmail').value = '';
+                                            })
+                                        }
+
 
                                     }
 
-                                }>Submit</div>
+                                }>Search</div>
                             </div>
                         </div>
                     </div>
