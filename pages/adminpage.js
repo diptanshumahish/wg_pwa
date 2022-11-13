@@ -6,12 +6,32 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
 import Router from "next/router";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
-
-
+import { Bar } from 'react-chartjs-2'
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+import { useEffect, useState } from "react";
 
 
 export default function Admin() {
-
+    useEffect(() => {
+        getLabels();
+        getData();
+    })
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        BarElement,
+        Title,
+        Tooltip,
+        Legend
+    );
     const router = Router;
     const auth = getAuth();
     var entEmail = '';
@@ -19,14 +39,22 @@ export default function Admin() {
     const db = getFirestore();
     var idArry = [];
     var totalDurArray = [];
-    var tempArray = []
-
-    async function getS() {
-
+    const [lab, setLab] = useState([]);
+    const [dat, setDat] = useState([]);
+    
+    
+    async function getLabels() {
         const querySnapshot = await getDocs(collection(db, "dailyWork"));
         querySnapshot.forEach((doc) => {
             //get legends array
             idArry.push(doc.id);
+
+        });
+        setLab(idArry);
+    }
+    async function getData() {
+        const querySnapshot = await getDocs(collection(db, "dailyWork"));
+        querySnapshot.forEach((doc) => {
             //get data for each person(email)
             var tempDoc = Object.entries(doc.data());
             var y = 0;
@@ -35,15 +63,39 @@ export default function Admin() {
             }
             totalDurArray.push(y);
         });
-
+        setDat(totalDurArray);
     }
 
-    async function pt() {
-        await getS();
-        console.log(idArry);
-        console.log(totalDurArray);
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                position:'bottom',
+                text: 'Comparitive report of employees total production',
+            },
+            
+        },
+    };
+
+    const data = {
+        labels: lab,
+
+        datasets: [
+            {
+                label: 'Employee production hours',
+                data: dat,
+                backgroundColor: '#7d4aaa74',
+                borderColor: '#7d4aaa',
+                borderWidth: 1,
+
+            }
+        ]
     }
-    // pt();
+
 
 
     return (
@@ -126,6 +178,17 @@ export default function Admin() {
                             }
                         }>Submit</div>
                     </div>
+
+                </section>
+                <section id={s.common} className={s.adminContent}>
+                    <div className={s.secHead}>
+                        Employees&apos; comparitive reports
+                    </div>
+                    <Bar
+                        options={options} data={data}
+
+                    />
+
 
                 </section>
             </main>
