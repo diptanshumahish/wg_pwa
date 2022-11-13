@@ -36,7 +36,7 @@ export default function Interview() {
             Timing: timing,
             Feedback: feedback,
             SubmissionDate: submissiondate,
-            submittedBy: auth.currentUser.email
+            SubmittedBy: auth.currentUser.email
 
         }, { merge: true, mergeFields: true }).then(() => {
             router.push('/workpage')

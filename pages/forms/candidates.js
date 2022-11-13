@@ -34,7 +34,11 @@ export default function Candidates() {
     var ssn = '';
     var link = '';
     var pay = '';
-    var comments = ''
+    var comments = '';
+    var edu = '';
+    var us = '';
+    var availability = '';
+    var support = '';
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ');
     var mom1 = moment().format('Do MMMM  YYYY');
     var submissiondate = Date.now();
@@ -55,6 +59,9 @@ export default function Candidates() {
             SSN: ssn,
             LinkedIn: link,
             PaymentMode: pay,
+            Us: us,
+            Availability: availability,
+            Support: support,
             Comments: comments,
             SubmissionDate: submissiondate,
             submittedBy: auth.currentUser.email
@@ -189,6 +196,30 @@ export default function Candidates() {
                         </div>
                         <input type="text" id="candPay" className="formInp" placeholder="Enter payment mode" onChange={() => {
                             pay = document.getElementById("candPay").value;
+                        }} />
+                        <div className="formEle">
+                            Education
+                        </div>
+                        <input type="text" id="candEdu" className="formInp" placeholder="Enter Education" onChange={() => {
+                            edu = document.getElementById("candEdu").value;
+                        }} />
+                        <div className="formEle">
+                            US enter year
+                        </div>
+                        <input type="text" id="candUs" className="formInp" placeholder="Enter US enter year" onChange={() => {
+                            us = document.getElementById("candUs").value;
+                        }} />
+                        <div className="formEle">
+                            Availability
+                        </div>
+                        <input type="text" id="candAvail" className="formInp" placeholder="Enter availability " onChange={() => {
+                            availability = document.getElementById("candAvail").value;
+                        }} />
+                        <div className="formEle">
+                            Support
+                        </div>
+                        <input type="text" id="candSup" className="formInp" placeholder="Enter support yes/no" onChange={() => {
+                            support = document.getElementById("candSup").value;
                         }} />
                         <div className="formEle">
                             Comments
