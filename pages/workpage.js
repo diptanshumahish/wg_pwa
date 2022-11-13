@@ -5,13 +5,14 @@ import s from "../styles/workpage.module.css"
 import Link from "next/link";
 import Image from "next/image";
 import Router from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
 import moment from "moment/moment";
 
 
 
 export default function Work() {
+    const [log, changeLog] = useState(false);
     const db = getFirestore();
     const auth = getAuth();
     const router = Router;
@@ -20,6 +21,10 @@ export default function Work() {
         count = value;
     })
     useEffect(() => {
+        Cookies.get('isLogged') == 'logged'
+            ? changeLog(true)
+            : changeLog(false);
+
 
         return () => {
             update().then(() => {
@@ -72,67 +77,74 @@ export default function Work() {
 
             </Head>
             <main>
-                <div id={s.top}>
-                    <div id={s.topquote}>
-
-                        <div id={s.cont}>
-                            <div id={s.instructions}>
-                                <span >Some Instructions: <br />
-                                    1. Your work time is being observed using this web app. <br />
-                                    2. Make sure if you take a break , please click on the take a break option, otherwise the work time would not be calculated when the device goes idle or locked out. <br />
-                                    3. Donot worry if you you get logged out , logging in will continue your session from wherever you left. <br />
-                                    4. You can minimize this window and continue with your work. <br />
-                                    5. While submutting any of the information thruogh the forms , if after clicking submit button you have network issues , please contact to admin before resubmitting
-                                </span>
-                            </div>
-                            <div id={s.break}>
-                                Take a Break
-                            </div>
+                {!log ?
+                    <div id='mainContentCenter'>
+                        <div id='innerError'>
+                            You can&apos;t Access the Dashboard without Logging in 😕, <br />
+                            <Link href='/'>
+                                <span>Consider Logging in</span>
+                            </Link>
                         </div>
-                        <span id={s.mot}>Keep up the good Work!😊</span> <br />
-
                     </div>
-                </div>
-                <div id={s.mainItems}>
-                    <div id={s.links}>
-                        <Link href='/forms/candidates' onClick={() => {
-                            update();
-                        }}>
-                            <div className={s.link}>
-                                Candidates
-                            </div></Link>
-                        <Link href='/forms/submissions'>
-                            <div className={s.link}>
-                                Submissions
-                            </div></Link>
-                        <Link href='/forms/interview'>
-                            <div className={s.link}>
-                                Interviews
-                            </div></Link>
-                        <Link href='/forms/clients'>
-                            <div className={s.link}>
-                                Clients
-                            </div></Link>
-                        <Link href='/forms/feedback'>
-                            <div className={s.link}>
-                                Feedback
-                            </div></Link>
-                        <Link href='/'>
-                            <div className={s.link} id={s.logout} onClick={() => {
-                                update().then(() => {
-                                    router.push('/dashboard')
-                                })
+                    : <><div id={s.top}>
+                        <div id={s.topquote}>
 
-                            }}>
-                                Logout <br />
+                            <div id={s.cont}>
+                                <div id={s.instructions}>
+                                    <span>Some Instructions: <br />
+                                        1. Your work time is being observed using this web app.<br />
+                                        2. Make sure if you take a break, please click on the take a break option, otherwise the work time would not be calculated when the device goes idle or locked out.<br />
+                                        3. Donot worry if you you get logged out, logging in will continue your session from wherever you left.<br />
+                                        4. You can minimize this window and continue with your work.<br />
+                                        5. While submutting any of the information thruogh the forms , if after clicking submit button you have network issues , please contact to admin before resubmitting
+                                    </span>
+                                </div>
+                                <div id={s.break}>
+                                    Take a Break
+                                </div>
+                            </div>
+                            <span id={s.mot}>Keep up the good Work!😊</span> <br />
 
+                        </div>
+                    </div><div id={s.mainItems}>
+                            <div id={s.links}>
+                                <Link href='/forms/candidates' onClick={() => {
+                                    update();
+                                }}>
+                                    <div className={s.link}>
+                                        Candidates
+                                    </div></Link>
+                                <Link href='/forms/submissions'>
+                                    <div className={s.link}>
+                                        Submissions
+                                    </div></Link>
+                                <Link href='/forms/interview'>
+                                    <div className={s.link}>
+                                        Interviews
+                                    </div></Link>
+                                <Link href='/forms/clients'>
+                                    <div className={s.link}>
+                                        Clients
+                                    </div></Link>
+                                <Link href='/forms/feedback'>
+                                    <div className={s.link}>
+                                        Feedback
+                                    </div></Link>
+                                <Link href='/'>
+                                    <div className={s.link} id={s.logout} onClick={() => {
+                                        update().then(() => {
+                                            router.push('/dashboard');
+                                        });
 
-                            </div></Link>
-                    </div>
-                    <div id={s.image}  >
-                        <Image src='/assets/working1.gif' width={500} height={500} alt='work' />
-                    </div>
-                </div>
+                                    }}>
+                                        Logout <br />
+                                    </div></Link>
+                            </div>
+                            <div id={s.image}>
+                                <Image src='/assets/working1.gif' width={500} height={500} alt='work' />
+                            </div>
+                        </div></>
+                }
             </main>
         </div>
     )

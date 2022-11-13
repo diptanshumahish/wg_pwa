@@ -76,32 +76,7 @@
     transition: 200ms ease;
 }
 
-#mainContentCenter {
-    height: 100vh;
-    width: 100vw;
-    padding: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-#innerError {
-    background-color: red;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    color: white;
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-#innerError span {
-    background-color: white;
-    color: red;
-    line-height: 2;
-    padding: 0 1rem;
-    border-radius: 0.1rem 0.2rem;
-    cursor: pointer;
-}
 
 #trigger {
     border: none;

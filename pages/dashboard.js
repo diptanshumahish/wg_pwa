@@ -18,6 +18,7 @@ export default function Dashboard() {
 
 
     }, [])
+    
 
     var router = useRouter();
     const auth = getAuth();
@@ -32,8 +33,8 @@ export default function Dashboard() {
             <main>
                 {
                     !log ?
-                        <div id={s.mainContentCenter}>
-                            <div id={s.innerError}>
+                        <div id='mainContentCenter'>
+                            <div id='innerError'>
                                 You can&apos;t Access the Dashboard without Logging in 😕, <br />
                                 <Link href='/'>
                                     <span>Consider Logging in</span>

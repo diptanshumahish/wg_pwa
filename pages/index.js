@@ -10,13 +10,42 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 
 export default function Home() {
+  useEffect(() => {
+    if (getOS() != 'Windows' || getOS() != 'Mac OS' || getOS() != 'Linux') {
+      router.push('/er')
+    }
+  })
   const router = useRouter();
   const [screen, changeScreen] = useState(true);
   var em = '';
   var pass = '';
   const app = initFirebase();
   const auth = getAuth();
-  const [load, changeLoad] = useState('1')
+  const [load, changeLoad] = useState('1');
+  function getOS() {
+    var userAgent = window.navigator.userAgent,
+      platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
+      macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+      windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+      iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+      os = null;
+
+    if (macosPlatforms.indexOf(platform) !== -1) {
+      os = 'Mac OS';
+    } else if (iosPlatforms.indexOf(platform) !== -1) {
+      os = 'iOS';
+    } else if (windowsPlatforms.indexOf(platform) !== -1) {
+      os = 'Windows';
+    } else if (/Android/.test(userAgent)) {
+      os = 'Android';
+    } else if (/Linux/.test(platform)) {
+      os = 'Linux';
+    }
+
+    return os;
+  }
+
+
 
 
 
@@ -88,7 +117,7 @@ export default function Home() {
                       var user = userCred;
                       Cookies.set('isLogged', 'logged', { expires: 1 / 24 });
                       Cookies.set('email', auth.currentUser.email);
-      
+
                       if (Cookies.get('email') == 'admin@wg.com') {
                         if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
                           router.push('/updatedet');
