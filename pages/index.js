@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { initFirebase } from '../src/config'
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -120,7 +120,7 @@ export default function Home() {
                       Cookies.set('isLogged', 'logged', { expires: 1 / 24 });
                       Cookies.set('email', auth.currentUser.email);
 
-                      if (Cookies.get('email') == 'admin@wg.com') {
+                      if (Cookies.get('email') == 'contact@warriorsgrp.com') {
                         if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
                           router.push('/updatedet');
                         } else {
