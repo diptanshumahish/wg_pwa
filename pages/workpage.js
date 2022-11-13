@@ -15,7 +15,7 @@ export default function Work() {
     const db = getFirestore();
     const auth = getAuth();
     const router = Router;
-    
+
     getCurrentDuration().then((value) => {
         count = value;
     })
@@ -63,7 +63,7 @@ export default function Work() {
     }, 60000)
     var up = setInterval(() => {
         update();
-    }, 120000)
+    }, 1800000)
 
     return (
         <div id={s.container}>
@@ -81,7 +81,7 @@ export default function Work() {
                                     1. Your work time is being observed using this web app. <br />
                                     2. Make sure if you take a break , please click on the take a break option, otherwise the work time would not be calculated when the device goes idle or locked out. <br />
                                     3. Donot worry if you you get logged out , logging in will continue your session from wherever you left. <br />
-                                    4. You can minimize this window and continue with your work.
+                                    4. You can minimize this window and continue with your work. <br />
                                     5. While submutting any of the information thruogh the forms , if after clicking submit button you have network issues , please contact to admin before resubmitting
                                 </span>
                             </div>
