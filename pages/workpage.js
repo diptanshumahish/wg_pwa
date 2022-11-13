@@ -12,15 +12,18 @@ import moment from "moment/moment";
 
 
 export default function Work() {
+    const emailFinal = Cookies.get('email');
     const [log, changeLog] = useState(false);
     const db = getFirestore();
     const auth = getAuth();
     const router = Router;
+    const [isBreak, changeIsBreak] = useState(true);
 
     getCurrentDuration().then((value) => {
         count = value;
     })
     useEffect(() => {
+
         Cookies.get('isLogged') == 'logged'
             ? changeLog(true)
             : changeLog(false);
@@ -34,7 +37,7 @@ export default function Work() {
         }
     })
     const mom = moment().format('Do MMMM, YYYY');
-    const emailFinal = Cookies.get('email');
+
 
     var count = 0;
 
@@ -99,8 +102,25 @@ export default function Work() {
                                         5. While submutting any of the information thruogh the forms , if after clicking submit button you have network issues , please contact to admin before resubmitting
                                     </span>
                                 </div>
-                                <div id={s.break}>
-                                    Take a Break
+                                <div id={s.break} onClick={
+                                    isBreak ? async () => {
+                                        changeIsBreak(false);
+                                        await update();
+                                        clearInterval(int);
+                                        clearInterval(up);
+                                    } : async () => {
+                                        changeIsBreak(true);
+                                        const tr = setInterval(() => {
+                                            clearInterval(int);
+                                            clearInterval(up);
+                                        }, 1800000);
+                                        clearInterval(tr);
+
+                                    }
+                                }>
+                                    {
+                                        isBreak ? 'Take a Break' : 'Continue work'
+                                    }
                                 </div>
                             </div>
                             <span id={s.mot}>Keep up the good Work!😊</span> <br />
