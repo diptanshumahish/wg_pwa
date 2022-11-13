@@ -86,6 +86,12 @@
     cursor: pointer;
 }
 
+#showbas {
+    width: 20%;
+    margin: 2rem;
+
+}
+
 .findSpace {
     /* width: 40%; */
     padding: 2rem;
@@ -97,4 +103,18 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+#catagories {
+    display: flex;
+    padding: 2rem;
+    justify-content: space-evenly;
+}
+
+.catagory {
+    background-color: var(--themeSec);
+    padding: 1rem;
+    border-radius: 0.6rem;
+    color: white;
+    font-weight: 500;
 }

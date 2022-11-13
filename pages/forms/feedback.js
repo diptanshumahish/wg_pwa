@@ -19,7 +19,9 @@ export default function Feedback() {
     async function update() {
         setDoc(doc(db, "Feedback", `${auth.currentUser.email} + ${mom}`), {
             Name: name,
-            Feedback: feedback
+            Feedback: feedback,
+            SubmissionDate: submissiondate,
+            submittedBy: auth.currentUser.email
         }, { merge: true, mergeFields: true }).then(() => {
             router.push('/workpage')
         })

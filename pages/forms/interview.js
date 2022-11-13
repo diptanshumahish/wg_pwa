@@ -24,16 +24,19 @@ export default function Interview() {
 
 
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ')
+    var submissiondate = Date.now();
     async function update() {
         setDoc(doc(db, "interviews", `${auth.currentUser.email} + ${mom}`), {
-            'Candidate Name': candidateName,
-            'Call Duration': callDuration,
+            CandidateName: candidateName,
+            CallDuration: callDuration,
             Date: date,
             Round: round,
             Support: support,
             Technology: technology,
             Timing: timing,
             Feedback: feedback,
+            SubmissionDate: submissiondate,
+            submittedBy: auth.currentUser.email
 
         }, { merge: true, mergeFields: true }).then(() => {
             router.push('/workpage')

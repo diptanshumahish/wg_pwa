@@ -2,7 +2,7 @@ import { getAuth } from "firebase/auth"
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { doc, setDoc, getFirestore } from 'firebase/firestore';
+import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore';
 import moment from 'moment';
 import Router from "next/router";
 import { useState } from "react";
@@ -11,7 +11,11 @@ export default function Submissions() {
     const auth = getAuth();
     const db = getFirestore();
     const router = Router;
-    const [clicked, changeClick] = useState('1')
+    const [clicked, changeClick] = useState('1');
+    var score = 0;
+    getCurrentScore().then((value) => {
+        score = value;
+    });
     //variables that will store the data to be inputted
     var name = '';
     var email = '';
@@ -24,22 +28,55 @@ export default function Submissions() {
     var candidate = '';
     var rate = '';
 
-    var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ')
+    var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ');
+    var mom1 = moment().format('Do MMMM  YYYY');
+    var submissiondate = Date.now();
     async function update() {
+        updateScore();
         setDoc(doc(db, "submissions", `${auth.currentUser.email} + ${mom}`), {
             Date: date,
             Name: name,
             Rate: rate,
             Email: email,
             Organization: org,
-            'Mobile Number': mob,
+            MobileNumber: mob,
             Candidate: candidate,
-            'End Client': endClient,
+            EndClient: endClient,
             Recruiter: rec,
-            Feedback: feed
+            Feedback: feed,
+            SubmissionDate: submissiondate,
+            submittedBy: auth.currentUser.email
         }, { merge: true, mergeFields: true }).then(() => {
             router.push('/workpage')
         })
+    }
+    async function updateScore() {
+        await getCurrentScore();
+
+        setDoc(doc(db, "productivityScore", `${auth.currentUser.email}`), {
+            [mom1]: score
+        }, { merge: true, mergeFields: true })
+    }
+
+    async function getCurrentScore() {
+        const docRef = doc(db, 'productivityScore', auth.currentUser.email)
+        const docSnap = (await getDoc(docRef));
+        if (docSnap.exists()) {
+            var data = docSnap.data();
+            var map = Object.entries(data)
+            var main = map.find((item) => {
+                return item[0] === mom1
+            })
+
+            if (main == undefined) {
+                return 0
+            } else {
+
+                return (main[1] + 1)
+            }
+        } else {
+            return 0
+        }
     }
     return (
         <div >

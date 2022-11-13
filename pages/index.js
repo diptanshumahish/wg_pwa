@@ -47,16 +47,9 @@ export default function Home() {
     return os;
   }
 
-
-
-
-
-
   return (
 
     <div className={styles.container}>
-
-
       <Head>
         <title>Work @ WGLLC</title>
         <meta name="application-name" content="Warriors Group Work" />

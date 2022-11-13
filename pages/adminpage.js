@@ -16,15 +16,11 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import DataTable from "react-data-table-component";
 
 
 export default function Admin() {
-    useEffect(() => {
-        getLabels();
-        getData();
-
-    })
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -45,6 +41,7 @@ export default function Admin() {
 
     const [lab, setLab] = useState([]);
     const [dat, setDat] = useState([]);
+    const [showBasic, setBasic] = useState('none')
     //particular
     const [partLab, setPartLabl] = useState([]);
     const [partDat, setPartDat] = useState([]);
@@ -166,6 +163,103 @@ export default function Admin() {
         ]
     }
 
+    //data table 
+    const [columnsTables, setColumns] = useState([]);
+    const [dataTables, setDataT] = useState([]);
+    // clients column 
+    var clientsCol = [
+        {
+            name: 'Name',
+            selector: row => row.Name,
+
+        },
+        {
+            name: 'Email',
+            selector: row => row.Email,
+
+        },
+        {
+            name: 'Organization',
+            selector: row => row.Organization,
+
+        },
+
+
+        {
+            name: 'Mobile Number',
+            selector: row => row.MobileNumber,
+
+        },
+        {
+            name: 'Recruiter',
+            selector: row => row.Recruiter,
+
+        },
+        {
+            name: 'Comments',
+            selector: row => row.Comments,
+
+        },
+
+
+    ]
+    //interview Column
+    var interviewCol = [
+        {
+            name: 'Date',
+            selector: row => row.Date,
+
+        },
+        {
+            name: 'Email',
+            selector: row => row.Email,
+
+        },
+        {
+            name: 'Organization',
+            selector: row => row.Organization,
+
+        },
+
+
+        {
+            name: 'Mobile Number',
+            selector: row => row.MobileNumber,
+
+        },
+        {
+            name: 'Recruiter',
+            selector: row => row.Recruiter,
+
+        },
+        {
+            name: 'Comments',
+            selector: row => row.Comments,
+
+        },
+
+
+    ]
+
+    async function getClients() {
+        var temp = [];
+        const querySnapshot = await getDocs(collection(db, "clients"));
+        querySnapshot.forEach((doc) => {
+
+
+            temp.push(doc.data());
+
+
+        });
+        temp.forEach(function (element, index) {
+            element['id'] = index + 1
+        })
+        temp = temp.reverse();
+        setDataT(temp);
+        setColumns(clientsCol);
+
+    }
+
 
 
     return (
@@ -254,8 +348,14 @@ export default function Admin() {
                     <div className={s.secHead}>
                         Employees&apos; comparitive reports
                     </div>
+                    <div onClick={async () => {
+                        await getData();
+                        await getLabels();
+                        setBasic('block');
+                    }} className={s.submitButton} id={s.showbas}>Show Graph</div>
+
                     <Bar
-                        options={options} data={data}
+                        options={options} data={data} style={{ display: showBasic }}
 
                     />
 
@@ -309,6 +409,25 @@ export default function Admin() {
                         options={options1} data={data1}
 
                     />
+
+                </section>
+                <section className={s.adminContent}>
+                    <div className={s.secHead}>
+                        Form Data
+                    </div>
+                    <div id={s.catagories}>
+                        <div className={s.catagory}>Submissions</div>
+                        <div className={s.catagory}>Feedback</div>
+                        <div className={s.catagory}>Candidates</div>
+                        <div className={s.catagory}>Interviews</div>
+                        <div className={s.catagory} onClick={
+                            () => {
+                                getClients();
+                            }
+                        }>Clients</div>
+                    </div>
+                    <DataTable columns={columnsTables}
+                        data={dataTables} />
 
                 </section>
             </main>

@@ -20,7 +20,8 @@ export default function Client() {
     var rec = '';
     var comments = '';
 
-    var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ')
+    var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ');
+    var submissiondate = Date.now();
     async function update() {
         setDoc(doc(db, "clients", `${auth.currentUser.email} + ${mom}`), {
             Name: name,
@@ -28,7 +29,9 @@ export default function Client() {
             MobileNumber: mob,
             Organization: org,
             Recruiter: rec,
-            Comments: comments
+            Comments: comments,
+            SubmissionDate: submissiondate,
+            submittedBy: auth.currentUser.email
         }, { merge: true, mergeFields: true }).then(() => {
             router.push('/workpage')
         })
