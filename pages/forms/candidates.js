@@ -2,7 +2,7 @@ import { getAuth } from "firebase/auth"
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { doc, setDoc, getFirestore, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getFirestore, getDoc, Timestamp } from 'firebase/firestore';
 import moment from 'moment';
 import Router from "next/router";
 import { useState } from "react";
@@ -11,6 +11,7 @@ export default function Candidates() {
 
 
     const [clicked, changeClick] = useState('1');
+
     var score = 0;
 
     const auth = getAuth();
@@ -41,7 +42,6 @@ export default function Candidates() {
     var support = '';
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ');
     var mom1 = moment().format('Do MMMM  YYYY');
-    var submissiondate = Date.now();
     async function update() {
         updateScore();
         setDoc(doc(db, "candidates", `${auth.currentUser.email} + ${mom}`), {
@@ -63,7 +63,7 @@ export default function Candidates() {
             Availability: availability,
             Support: support,
             Comments: comments,
-            SubmissionDate: submissiondate,
+            SubmissionDate: Timestamp.now(),
             submittedBy: auth.currentUser.email
         }, { merge: true, mergeFields: true }).then(() => {
             router.push('/workpage')

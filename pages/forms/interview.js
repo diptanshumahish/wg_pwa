@@ -2,7 +2,7 @@ import { getAuth } from "firebase/auth"
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { doc, setDoc, getFirestore } from 'firebase/firestore';
+import { doc, setDoc, getFirestore,Timestamp } from 'firebase/firestore';
 import moment from 'moment';
 import Router from "next/router";
 import { useState } from "react";
@@ -24,7 +24,6 @@ export default function Interview() {
 
 
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ')
-    var submissiondate = Date.now();
     async function update() {
         setDoc(doc(db, "interviews", `${auth.currentUser.email} + ${mom}`), {
             CandidateName: candidateName,
@@ -35,7 +34,7 @@ export default function Interview() {
             Technology: technology,
             Timing: timing,
             Feedback: feedback,
-            SubmissionDate: submissiondate,
+            SubmissionDate: Timestamp.now(),
             SubmittedBy: auth.currentUser.email
 
         }, { merge: true, mergeFields: true }).then(() => {

@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { doc, collection, getDocs, getFirestore, getDoc } from "firebase/firestore";
+import { doc, collection, getDocs, getFirestore, getDoc, orderBy } from "firebase/firestore";
 import { Bar } from 'react-chartjs-2'
 import {
     Chart as ChartJS,
@@ -18,6 +18,7 @@ import {
 } from 'chart.js';
 import { useState } from "react";
 import DataTable from "react-data-table-component";
+import React from 'react'
 
 
 export default function Admin() {
@@ -38,7 +39,10 @@ export default function Admin() {
     const db = getFirestore();
     var idArry = [];
     var totalDurArray = [];
+    var genProdData = []
 
+    //general title for data table
+    const [title, setTitle] = useState('');
 
     const [lab, setLab] = useState([]);
     const [dat, setDat] = useState([]);
@@ -234,6 +238,19 @@ export default function Admin() {
     // clients column 
     var clientsCol = [
         {
+            name: 'Submitted By',
+            selector: row => row.submittedBy,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.9)',
+                color: 'white',
+                minHeight: '100px',
+
+
+            },
+
+
+        },
+        {
             name: 'Name',
             selector: row => row.Name,
 
@@ -267,7 +284,9 @@ export default function Admin() {
         },
         {
             name: 'Sorting',
-            selector: row => row.SubmissionDate,
+            selector: row => row.SubmissionDate.toDate().getDate(),
+            sortable: true,
+
 
         },
 
@@ -278,6 +297,10 @@ export default function Admin() {
         {
             name: 'Submitted by',
             selector: row => row.SubmittedBy,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.9)',
+                color: 'white',
+            },
 
         },
         {
@@ -324,7 +347,9 @@ export default function Admin() {
         },
         {
             name: 'Sorting',
-            selector: row => row.SubmissionDate,
+            selector: row => row.SubmissionDate.toDate().getDate(),
+            sortable: true,
+
 
         },
 
@@ -335,6 +360,10 @@ export default function Admin() {
         {
             name: 'Submitted by',
             selector: row => row.SubmittedBy,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.9)',
+                color: 'white',
+            },
 
         },
         {
@@ -345,6 +374,10 @@ export default function Admin() {
         {
             name: 'Date',
             selector: row => row.Date,
+            style: {
+                wordBreak: 'break-word',
+                width: 200
+            }
 
         },
         {
@@ -384,7 +417,9 @@ export default function Admin() {
         },
         {
             name: 'Sorting',
-            selector: row => row.SubmissionDate,
+            selector: row => row.SubmissionDate.toDate().getDate(),
+            sortable: true,
+
 
         },
 
@@ -395,6 +430,10 @@ export default function Admin() {
         {
             name: 'Submitted by',
             selector: row => row.SubmittedBy,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.9)',
+                color: 'white',
+            },
 
         },
         {
@@ -489,7 +528,9 @@ export default function Admin() {
         },
         {
             name: 'Sorting',
-            selector: row => row.SubmissionDate,
+            selector: row => row.SubmissionDate.toDate().getDate(),
+            sortable: true,
+
 
         },
 
@@ -500,6 +541,10 @@ export default function Admin() {
         {
             name: 'Submitted by',
             selector: row => row.SubmittedBy,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.9)',
+                color: 'white',
+            },
 
         },
         {
@@ -514,7 +559,9 @@ export default function Admin() {
         },
         {
             name: 'Sorting',
-            selector: row => row.SubmissionDate,
+            selector: row => row.SubmissionDate.toDate().getDate(),
+            sortable: true,
+
 
         },
     ]
@@ -523,11 +570,7 @@ export default function Admin() {
         var temp = [];
         const querySnapshot = await getDocs(collection(db, "clients"));
         querySnapshot.forEach((doc) => {
-
-
             temp.push(doc.data());
-
-
         });
         temp.forEach(function (element, index) {
             element['id'] = index + 1
@@ -621,17 +664,18 @@ export default function Admin() {
         setProdLab(id);
     }
     async function getProdData() {
-        const querySnapshot = await getDocs(collection(db, "dailyWork"));
+        const querySnapshot = await getDocs(collection(db, "productivityScore"));
         querySnapshot.forEach((doc) => {
-            var dat = [];
+
             var tempDoc = Object.entries(doc.data());
             var y = 0;
             for (let i = 0; i < tempDoc.length; i++) {
                 y += tempDoc[i][1];
             }
-            dat.push(y);
+
+            genProdData.push(y);
         });
-        setProdDat(dat);
+        setProdDat(genProdData);
     }
     //part Prod
     async function getPartProd() {
@@ -664,6 +708,7 @@ export default function Admin() {
             });
         }
     }
+
     return (
         <div>
             <Head>
@@ -822,32 +867,38 @@ export default function Admin() {
                             onClick={
                                 () => {
                                     getSubmissions();
+                                    setTitle('Submissions')
                                 }
                             }>Submissions</div>
                         <div className={s.catagory} onClick={
                             () => {
                                 getFeedback();
+                                setTitle('Feedback')
                             }
                         }>Feedback</div>
                         <div className={s.catagory} onClick={
                             () => {
                                 getCandidatess();
+                                setTitle('candidates')
                             }
                         }>Candidates</div>
                         <div className={s.catagory} onClick={
                             () => {
                                 getInterviews();
+                                setTitle('Interviews');
                             }
                         }>Interviews</div>
                         <div className={s.catagory} onClick={
                             () => {
                                 getClients();
+                                setTitle('Clients Data');
                             }
                         }>Clients</div>
                     </div>
-                    <DataTable columns={columnsTables}
-                        data={dataTables} />
 
+                    <DataTable columns={columnsTables} title={title}
+                        data={dataTables} pagination
+                    />
                 </section>
                 <section className={s.adminContent}>
                     <div className={s.secHead}>

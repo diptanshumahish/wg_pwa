@@ -2,7 +2,7 @@ import { getAuth } from "firebase/auth"
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { doc, setDoc, getFirestore } from 'firebase/firestore';
+import { doc, setDoc, getFirestore, Timestamp } from 'firebase/firestore';
 import moment from 'moment';
 import Router from "next/router";
 import { useState } from "react";
@@ -11,7 +11,8 @@ export default function Feedback() {
     const auth = getAuth();
     const db = getFirestore();
     const router = Router;
-    const [clicked, changeClick] = useState('1')
+    const [clicked, changeClick] = useState('1');
+
     //variables that will store the data to be inputted
     var feedback = '';
     var name = '';
@@ -20,7 +21,7 @@ export default function Feedback() {
         setDoc(doc(db, "Feedback", `${auth.currentUser.email} + ${mom}`), {
             Name: name,
             Feedback: feedback,
-            SubmissionDate: submissiondate,
+            SubmissionDate: Timestamp.now(),
             submittedBy: auth.currentUser.email
         }, { merge: true, mergeFields: true }).then(() => {
             router.push('/workpage')
