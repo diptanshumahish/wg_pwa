@@ -565,8 +565,8 @@ export default function Admin() {
 
     async function getClients() {
         var temp = [];
-        const colRef = collection(db, "Feedback");
-        const q = query(colRef, orderBy("clients", "desc"));
+        const colRef = collection(db, "clients");
+        const q = query(colRef, orderBy("SubmissionDate", "desc"));
         onSnapshot(q, async (snapshot) => {
             await snapshot.docs.forEach((doc) => {
                 temp.push(doc.data());
