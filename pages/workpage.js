@@ -12,7 +12,7 @@ import moment from "moment/moment";
 
 
 export default function Work() {
-    
+
     const emailFinal = Cookies.get('email');
     const [log, changeLog] = useState(false);
     const db = getFirestore();
@@ -100,7 +100,7 @@ export default function Work() {
                                         2. Make sure if you take a break, please click on the take a break option, otherwise the work time would not be calculated when the device goes idle or locked out.<br />
                                         3. Donot worry if you you get logged out, logging in will continue your session from wherever you left.<br />
                                         4. You can minimize this window and continue with your work.<br />
-                                        5. While submutting any of the information thruogh the forms , if after clicking submit button you have network issues , please contact to admin before resubmitting
+                                        5. While submitting any of the information thruogh the forms , if after clicking submit button you have network issues , please contact to admin before resubmitting
                                     </span>
                                 </div>
                                 <div id={s.break} onClick={
@@ -150,6 +150,10 @@ export default function Work() {
                                 <Link href='/forms/feedback'>
                                     <div className={s.link}>
                                         Feedback
+                                    </div></Link>
+                                <Link href='/forms/leave'>
+                                    <div className={s.link}>
+                                        Apply Leave
                                     </div></Link>
                                 <Link href='/'>
                                     <div className={s.link} id={s.logout} onClick={() => {
