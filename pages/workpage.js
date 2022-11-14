@@ -31,12 +31,11 @@ export default function Work() {
 
 
         return () => {
-            update().then(() => {
-                clearInterval(int);
-                clearInterval(up);
-            })
+            clearInterval(int);
+            clearInterval(up);
+            // alert("You have not updated your time");
         }
-    })
+    }, [])
     const mom = moment().format('Do MMMM, YYYY');
 
 
@@ -74,6 +73,7 @@ export default function Work() {
         update();
     }, 1800000)
 
+    console.log(count);
     return (
         <div id={s.container}>
             <Head>
@@ -132,26 +132,36 @@ export default function Work() {
                                 <Link href='/forms/candidates' onClick={() => {
                                     update();
                                 }}>
-                                    <div className={s.link}>
+                                    <div className={s.link} >
                                         Candidates
                                     </div></Link>
-                                <Link href='/forms/submissions'>
+                                <Link href='/forms/submissions' onClick={() => {
+                                    update();
+                                }}>
                                     <div className={s.link}>
                                         Submissions
                                     </div></Link>
-                                <Link href='/forms/interview'>
+                                <Link href='/forms/interview' onClick={() => {
+                                    update();
+                                }}>
                                     <div className={s.link}>
                                         Interviews
                                     </div></Link>
-                                <Link href='/forms/clients'>
+                                <Link href='/forms/clients' onClick={() => {
+                                    update();
+                                }}>
                                     <div className={s.link}>
                                         Clients
                                     </div></Link>
-                                <Link href='/forms/feedback'>
+                                <Link href='/forms/feedback' onClick={() => {
+                                    update();
+                                }}>
                                     <div className={s.link}>
                                         Feedback
                                     </div></Link>
-                                <Link href='/forms/leave'>
+                                <Link href='/forms/leave' onClick={() => {
+                                    update();
+                                }}>
                                     <div className={s.link}>
                                         Apply Leave
                                     </div></Link>
