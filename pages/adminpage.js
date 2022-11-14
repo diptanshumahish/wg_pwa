@@ -359,7 +359,7 @@ export default function Admin() {
     var submissionsCol = [
         {
             name: 'Submitted by',
-            selector: row => row.SubmittedBy,
+            selector: row => row.submittedBy,
             style: {
                 backgroundColor: 'rgba(63, 195, 128, 0.9)',
                 color: 'white',
@@ -429,7 +429,7 @@ export default function Admin() {
     var candidatesColumn = [
         {
             name: 'Submitted by',
-            selector: row => row.SubmittedBy,
+            selector: row => row.submittedBy,
             style: {
                 backgroundColor: 'rgba(63, 195, 128, 0.9)',
                 color: 'white',
@@ -540,7 +540,7 @@ export default function Admin() {
     var FeedBackColumn = [
         {
             name: 'Submitted by',
-            selector: row => row.SubmittedBy,
+            selector: row => row.submittedBy,
             style: {
                 backgroundColor: 'rgba(63, 195, 128, 0.9)',
                 color: 'white',
