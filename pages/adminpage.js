@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { doc, collection, getDocs, getFirestore, getDoc, orderBy } from "firebase/firestore";
+import { doc, collection, getDocs, getFirestore, getDoc, query, orderBy, where, onSnapshot } from "firebase/firestore";
 import { Bar } from 'react-chartjs-2'
 import {
     Chart as ChartJS,
@@ -283,9 +283,8 @@ export default function Admin() {
 
         },
         {
-            name: 'Sorting',
-            selector: row => row.SubmissionDate.toDate().getDate(),
-            sortable: true,
+            name: 'Submission date(D/M/YYYY)',
+            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
 
 
         },
@@ -346,9 +345,8 @@ export default function Admin() {
 
         },
         {
-            name: 'Sorting',
-            selector: row => row.SubmissionDate.toDate().getDate(),
-            sortable: true,
+            name: 'Submission date(D/M/YYYY)',
+            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
 
 
         },
@@ -416,13 +414,11 @@ export default function Admin() {
 
         },
         {
-            name: 'Sorting',
-            selector: row => row.SubmissionDate.toDate().getDate(),
-            sortable: true,
+            name: 'Submission date(D/M/YYYY)',
+            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
 
 
         },
-
 
     ]
     //candidates coulmn
@@ -527,9 +523,8 @@ export default function Admin() {
 
         },
         {
-            name: 'Sorting',
-            selector: row => row.SubmissionDate.toDate().getDate(),
-            sortable: true,
+            name: 'Submission date(D/M/YYYY)',
+            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
 
 
         },
@@ -546,10 +541,12 @@ export default function Admin() {
                 color: 'white',
             },
 
+
         },
         {
             name: 'Name',
             selector: row => row.Name,
+
 
         },
         {
@@ -558,97 +555,92 @@ export default function Admin() {
 
         },
         {
-            name: 'Sorting',
-            selector: row => row.SubmissionDate.toDate().getDate(),
-            sortable: true,
+            name: 'Submission date(D/M/YYYY)',
+            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
 
 
         },
+
     ]
 
     async function getClients() {
         var temp = [];
-        const querySnapshot = await getDocs(collection(db, "clients"));
-        querySnapshot.forEach((doc) => {
-            temp.push(doc.data());
-        });
-        temp.forEach(function (element, index) {
-            element['id'] = index + 1
+        const colRef = collection(db, "Feedback");
+        const q = query(colRef, orderBy("clients", "desc"));
+        onSnapshot(q, async (snapshot) => {
+            await snapshot.docs.forEach((doc) => {
+                temp.push(doc.data());
+            })
+            await temp.forEach(function (element, index) {
+                element['id'] = index + 1
+            });
+            setDataT(temp);
         })
-        temp = temp.reverse();
-        setDataT(temp);
         setColumns(clientsCol);
 
     }
     async function getSubmissions() {
         var temp = [];
-        const querySnapshot = await getDocs(collection(db, "submissions"));
-        querySnapshot.forEach((doc) => {
-
-
-            temp.push(doc.data());
-
-
-        });
-        temp.forEach(function (element, index) {
-            element['id'] = index + 1
+        const colRef = collection(db, "submissions");
+        const q = query(colRef, orderBy("SubmissionDate", "desc"));
+        onSnapshot(q, async (snapshot) => {
+            await snapshot.docs.forEach((doc) => {
+                temp.push(doc.data());
+            })
+            await temp.forEach(function (element, index) {
+                element['id'] = index + 1
+            });
+            setDataT(temp);
         })
-        temp = temp.reverse();
-        setDataT(temp);
         setColumns(submissionsCol);
 
     }
     async function getCandidatess() {
         var temp = [];
-        const querySnapshot = await getDocs(collection(db, "candidates"));
-        querySnapshot.forEach((doc) => {
-
-
-            temp.push(doc.data());
-
-
-        });
-        temp.forEach(function (element, index) {
-            element['id'] = index + 1
+        const colRef = collection(db, "candidates");
+        const q = query(colRef, orderBy("SubmissionDate", "desc"));
+        onSnapshot(q, async (snapshot) => {
+            await snapshot.docs.forEach((doc) => {
+                temp.push(doc.data());
+            })
+            await temp.forEach(function (element, index) {
+                element['id'] = index + 1
+            });
+            setDataT(temp);
         })
-        temp = temp.reverse();
-        setDataT(temp);
         setColumns(candidatesColumn);
 
     }
     async function getInterviews() {
         var temp = [];
-        const querySnapshot = await getDocs(collection(db, "interviews"));
-        querySnapshot.forEach((doc) => {
-
-
-            temp.push(doc.data());
-
-
-        });
-        temp.forEach(function (element, index) {
-            element['id'] = index + 1
+        const colRef = collection(db, "interviews");
+        const q = query(colRef, orderBy("SubmissionDate", "desc"));
+        onSnapshot(q, async (snapshot) => {
+            await snapshot.docs.forEach((doc) => {
+                temp.push(doc.data());
+            })
+            await temp.forEach(function (element, index) {
+                element['id'] = index + 1
+            });
+            setDataT(temp);
         })
-        temp = temp.reverse();
-        setDataT(temp);
         setColumns(interviewCol);
 
     }
     async function getFeedback() {
         var temp = [];
-        const querySnapshot = await getDocs(collection(db, "Feedback"));
-        querySnapshot.forEach((doc) => {
-
-
-            temp.push(doc.data());
-
-
-        });
-        temp.forEach(function (element, index) {
-            element['id'] = index + 1
+        const colRef = collection(db, "Feedback");
+        const q = query(colRef, orderBy("SubmissionDate", "desc"));
+        onSnapshot(q, async (snapshot) => {
+            await snapshot.docs.forEach((doc) => {
+                temp.push(doc.data());
+            })
+            await temp.forEach(function (element, index) {
+                element['id'] = index + 1
+            });
+            setDataT(temp);
         })
-        temp = temp.reverse();
-        setDataT(temp);
+
         setColumns(FeedBackColumn);
 
     }
