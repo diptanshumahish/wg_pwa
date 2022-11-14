@@ -28,7 +28,7 @@ export default function Leave() {
                             <div className="leaveSub" >
                                 Your Email, (Your approval / rejection mail will come here)
                             </div>
-                            <input type="email" name='replyToemail' id="nochange" value={auth.currentUser.email} className="inputLeave" required />
+                            <input type="email" name='replyToemail' placeholder="Enter your email" className="inputLeave" required />
                         </label>
                         <label htmlFor="leaveStart">
                             <div className="leaveSub">
