@@ -119,4 +119,15 @@
     border-radius: 0.6rem;
     color: white;
     font-weight: 500;
+    box-shadow: rgba(100, 100, 111, 0.422) 0px 7px 29px 0px;
+    cursor: pointer;
+}
+
+.catagory:hover {
+    scale: 1.01;
+    transition: 300ms ease;
+}
+
+.catagory:active {
+    scale: 0.95;
 }
