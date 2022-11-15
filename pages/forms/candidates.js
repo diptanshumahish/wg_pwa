@@ -156,9 +156,9 @@ export default function Candidates() {
                             job = document.getElementById("candOne").value;
                         }} />
                         <div className="formEle">
-                            Onsite
+                            Onsite / Remote
                         </div>
-                        <input type="text" id="candOns" className="formInp" placeholder="Onsite" onChange={() => {
+                        <input type="text" id="candOns" className="formInp" placeholder="Onsite / remote" onChange={() => {
                             onsite = document.getElementById("candOns").value;
                         }} />
                         <div className="formEle">

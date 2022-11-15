@@ -18,7 +18,7 @@ export default function Dashboard() {
 
 
     }, [])
-    
+
 
     var router = useRouter();
     const auth = getAuth();
@@ -30,7 +30,7 @@ export default function Dashboard() {
                 <title> Dashboard</title>
             </Head>
 
-            <main>
+            <main id={s.back}>
                 {
                     !log ?
                         <div id='mainContentCenter'>

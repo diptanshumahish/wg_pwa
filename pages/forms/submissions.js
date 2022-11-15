@@ -92,6 +92,12 @@ export default function Submissions() {
                 <div id="mainFormArea">
                     <div id="form">
                         <div className="formEle">
+                            Date
+                        </div>
+                        <input type="text" id="candDate" className="formInp" placeholder="Enter Date" onChange={() => {
+                            date = document.getElementById("candDate").value;
+                        }} />
+                        <div className="formEle">
                             Name
                         </div>
                         <input type="text" id="candName" className="formInp" placeholder="Enter name" onChange={() => {
@@ -106,24 +112,6 @@ export default function Submissions() {
                             rate = document.getElementById("candRate").value;
                         }} />
 
-
-                        <div className="formEle">
-                            Date
-                        </div>
-                        <input type="text" id="candDate" className="formInp" placeholder="Enter Date" onChange={() => {
-                            date = document.getElementById("candDate").value;
-                        }} />
-
-                        <div className="formEle">
-                            Candidate
-                        </div>
-                        <input type="text" id="candCand" className="formInp" placeholder="Enter candidate" onChange={() => {
-                            candidate = document.getElementById("candCand").value;
-                        }} />
-
-
-
-
                         <div className="formEle">
                             Email
                         </div>
@@ -131,7 +119,12 @@ export default function Submissions() {
                             email = document.getElementById("candEmail").value;
                         }} />
 
-
+                        <div className="formEle">
+                            Organization
+                        </div>
+                        <input type="text" id="candOrg" className="formInp" placeholder="Enter organization" onChange={() => {
+                            org = document.getElementById("candOrg").value;
+                        }} />
                         <div className="formEle">
                             Mobile Number
                         </div>
@@ -142,10 +135,16 @@ export default function Submissions() {
 
 
                         <div className="formEle">
-                            Organization
+                            Candidate
                         </div>
-                        <input type="text" id="candOrg" className="formInp" placeholder="Enter organization" onChange={() => {
-                            org = document.getElementById("candOrg").value;
+                        <input type="text" id="candCand" className="formInp" placeholder="Enter candidate" onChange={() => {
+                            candidate = document.getElementById("candCand").value;
+                        }} />
+                        <div className="formEle">
+                            End Client
+                        </div>
+                        <input type="text" id="candEnd" className="formInp" placeholder="Enter End Client" onChange={() => {
+                            endClient = document.getElementById("candEnd").value;
                         }} />
 
 
@@ -154,13 +153,6 @@ export default function Submissions() {
                         </div>
                         <input type="text" id="candRec" className="formInp" placeholder="Enter Recruiter" onChange={() => {
                             rec = document.getElementById("candRec").value;
-                        }} />
-
-                        <div className="formEle">
-                            End Client
-                        </div>
-                        <input type="text" id="candEnd" className="formInp" placeholder="Enter End Client" onChange={() => {
-                            endClient = document.getElementById("candEnd").value;
                         }} />
 
 
