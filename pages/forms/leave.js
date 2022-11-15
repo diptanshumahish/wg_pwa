@@ -17,7 +17,7 @@ export default function Leave() {
                     </Link>
                 </div>
                 <div id="leaveMain">
-                    <form action="https://formsubmit.co/diptanshumahish2016@gmail.com" method='POST' id="leaveForm">
+                    <form action="https://formsubmit.co/Hr@warriorsgrp.com" method='POST' id="leaveForm">
                         <label htmlFor="Name">
                             <div className="leaveSub">
                                 Enter your name
