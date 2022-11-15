@@ -290,3 +290,124 @@ main {
   cursor: pointer;
 }
 
+/* loading animation  */
+#loadingScreen {
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: var(--themeSec);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#aniImage {
+  width: auto;
+}
+
+
+
+#dots {
+  position: absolute;
+  display: flex;
+  width: min-content;
+  opacity: 0.5;
+  gap: 20px;
+  top: 70%;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid #ffffffcb;
+  background-color: #ffffffcb;
+}
+
+.dot:nth-child(1) {
+  animation-name: dot1;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes dot1 {
+  0% {
+    background-color: #ffffffcb;
+  }
+
+  25% {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: transparent;
+  }
+
+  75% {
+    background-color: transparent;
+  }
+
+  100% {
+    background-color: #ffffffcb;
+  }
+
+}
+
+.dot:nth-child(2) {
+  animation-name: dot2;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes dot2 {
+  0% {
+    background-color: transparent;
+  }
+
+  25% {
+    background-color: #ffffffcb;
+  }
+
+  50% {
+    background-color: transparent;
+  }
+
+  75% {
+    background-color: #ffffffcb;
+  }
+
+  100% {
+    background-color: transparent;
+  }
+}
+
+.dot:nth-child(3) {
+  animation-name: dot3;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes dot3 {
+  0% {
+    background-color: transparent;
+  }
+
+  25% {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: #ffffffcb;
+  }
+
+  75% {
+    background-color: transparent;
+  }
+
+  100% {
+    background-color: transparent;
+  }
+}
