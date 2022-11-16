@@ -417,7 +417,6 @@ export default function Admin() {
 
         },
 
-
     ]
     //candidates coulmn
     var candidatesColumn = [
@@ -428,6 +427,11 @@ export default function Admin() {
                 backgroundColor: 'rgba(63, 195, 128, 0.9)',
                 color: 'white',
             },
+
+        },
+        {
+            name: 'Date',
+            selector: row => row.Date,
 
         },
         {

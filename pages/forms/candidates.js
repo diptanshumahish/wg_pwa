@@ -21,6 +21,7 @@ export default function Candidates() {
         score = value;
     });
     //variables that will store the data to be inputted
+    var date = '';
     var name = '';
     var tech = '';
     var visa = '';
@@ -45,6 +46,7 @@ export default function Candidates() {
     async function update() {
         updateScore();
         setDoc(doc(db, "candidates", `${auth.currentUser.email} + ${mom}`), {
+            Date: date,
             Name: name,
             Technology: tech,
             Visa: visa,
@@ -113,6 +115,12 @@ export default function Candidates() {
                 </Link>
                 <div id="mainFormArea">
                     <div id="form">
+                        <div className="formEle">
+                            Date
+                        </div>
+                        <input type="text" id="candDate" className="formInp" placeholder="Enter date" onChange={() => {
+                            date = document.getElementById("candDate").value;
+                        }} />
                         <div className="formEle">
                             Name
                         </div>
