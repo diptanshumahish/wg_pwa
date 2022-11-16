@@ -1,4 +1,4 @@
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut, updateProfile } from "firebase/auth";
 import Cookies from 'js-cookie';
 import Head from "next/head";
 import s from "../styles/workpage.module.css"
@@ -8,12 +8,17 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
 import moment from "moment/moment";
+import { Modal, Input, Button, Text } from "@nextui-org/react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 export default function Work() {
 
     const emailFinal = Cookies.get('email');
+    const [display, changeDisplay] = useState(false);
+    const [name, changeName] = useState('')
     const [log, changeLog] = useState(false);
     const db = getFirestore();
     const auth = getAuth();
@@ -37,6 +42,10 @@ export default function Work() {
         }
     }, [])
     const mom = moment().format('Do MMMM, YYYY');
+    function closeHandler() {
+        changeName('');
+        changeDisplay(false);
+    }
 
 
     var count = 0;
@@ -73,7 +82,6 @@ export default function Work() {
         update();
     }, 1800000)
 
-    console.log(count);
     return (
         <div id={s.container}>
             <Head>
@@ -91,6 +99,18 @@ export default function Work() {
                         </div>
                     </div>
                     : <><div id={s.top}>
+                        <ToastContainer
+                            position="top-center"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                        />
                         <div id={s.topquote}>
 
                             <div id={s.cont}>
@@ -162,7 +182,7 @@ export default function Work() {
                                 <Link href='/forms/leave' onClick={() => {
                                     update();
                                 }}>
-                                    <div className={s.link}>
+                                    <div className={s.link} >
                                         Apply Leave
                                     </div></Link>
                                 <Link href='/'>
@@ -174,6 +194,11 @@ export default function Work() {
                                     }}>
                                         Logout <br />
                                     </div></Link>
+                                <div className={s.link} id={s.name} onClick={() => {
+                                    changeDisplay(true)
+                                }}>
+                                    Update Name
+                                </div>
                             </div>
                             <div id={s.image}>
                                 <Image src='/assets/fill.gif' width={500} height={500} alt='work' id={s.LOG} />
@@ -181,6 +206,60 @@ export default function Work() {
                         </div></>
                 }
             </main>
+            <Modal
+                closeButton
+                blur
+                aria-labelledby="modal-title"
+                open={display}
+                onClose={closeHandler}
+            >
+                <Modal.Header>
+                    <Text id="modal-title" size={18}>
+                        Update your Name
+
+                    </Text>
+                </Modal.Header>
+                <Modal.Body>
+                    <Input
+                        clearable
+                        bordered
+                        fullWidth
+                        color="primary"
+                        size="lg"
+                        id="na"
+                        placeholder="Update Name"
+                        onChange={() => {
+                            changeName(document.getElementById('na').value);
+                        }}
+
+                    />
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button auto flat color="error" onClick={closeHandler}>
+                        Close
+                    </Button>
+                    <Button auto onClick={() => {
+                        closeHandler();
+                        updateProfile(auth.currentUser, {
+                            displayName: name
+                        }).then(() => {
+                            toast.success('Updated profile name', {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
+                            });
+                        })
+                    }}>
+                        update
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }
