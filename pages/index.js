@@ -21,7 +21,7 @@ export default function Home() {
         setSplash(false);
       }, 3000)
     }
-  })
+  }, [])
   const router = useRouter();
   const [screen, changeScreen] = useState(true);
   var em = '';
@@ -132,13 +132,13 @@ export default function Home() {
                       Cookies.set('email', auth.currentUser.email);
 
                       if (Cookies.get('email') == 'contact@warriorsgrp.com') {
-                        if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.photoURL == "") {
+                        if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
                           router.push('/updatedet');
                         } else {
                           router.push('/adminpage');
                         }
                       } else {
-                        if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.photoURL == "") {
+                        if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
                           router.push('/updatedet')
                         } else {
                           router.push('/dashboard')
