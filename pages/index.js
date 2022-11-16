@@ -21,7 +21,7 @@ export default function Home() {
         setSplash(false);
       }, 3000)
     }
-  }, [])
+  })
   const router = useRouter();
   const [screen, changeScreen] = useState(true);
   var em = '';

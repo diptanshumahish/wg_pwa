@@ -39,7 +39,7 @@ export default function Work() {
             clearInterval(up);
             // alert("You have not updated your time");
         }
-    }, [])
+    })
     const mom = moment().format('Do MMMM, YYYY');
 
 
