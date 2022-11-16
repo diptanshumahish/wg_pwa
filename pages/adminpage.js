@@ -416,12 +416,7 @@ export default function Admin() {
             selector: row => row.Feedback,
 
         },
-        // {
-        //     name: 'Submission date(D/M/YYYY)',
-        //     selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
 
-
-        // },
 
     ]
     //candidates coulmn
