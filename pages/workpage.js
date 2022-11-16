@@ -80,7 +80,7 @@ export default function Work() {
                 <title>Work Page</title>
 
             </Head>
-            <main>
+            <main id={s.back}>
                 {!log ?
                     <div id='mainContentCenter'>
                         <div id='innerError'>
@@ -176,7 +176,7 @@ export default function Work() {
                                     </div></Link>
                             </div>
                             <div id={s.image}>
-                                <Image src='/assets/working1.gif' width={500} height={500} alt='work' />
+                                <Image src='/assets/fill.gif' width={500} height={500} alt='work' id={s.LOG} />
                             </div>
                         </div></>
                 }

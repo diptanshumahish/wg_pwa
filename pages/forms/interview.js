@@ -2,7 +2,7 @@ import { getAuth } from "firebase/auth"
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { doc, setDoc, getFirestore,Timestamp } from 'firebase/firestore';
+import { doc, setDoc, getFirestore, Timestamp } from 'firebase/firestore';
 import moment from 'moment';
 import Router from "next/router";
 import { useState } from "react";
@@ -55,22 +55,22 @@ export default function Interview() {
                 <div id="mainFormArea">
                     <div id="form">
                         <div className="formEle">
+                            Date
+                        </div>
+                        <input type="text" id="candDate" className="formInp" placeholder="Enter date" onChange={() => {
+                            date = document.getElementById("candDate").value;
+                        }} />
+                        <div className="formEle">
                             Candidate Name
                         </div>
                         <input type="text" id="candName" className="formInp" placeholder="Enter candidate name" onChange={() => {
                             candidateName = document.getElementById("candName").value;
                         }} />
                         <div className="formEle">
-                            Call Duration
+                            Timing
                         </div>
-                        <input type="text" id="candCall" className="formInp" placeholder="Enter call duration e.g. 4hr 30mins " onChange={() => {
-                            callDuration = document.getElementById("candCall").value;
-                        }} />
-                        <div className="formEle">
-                            Date
-                        </div>
-                        <input type="text" id="candDate" className="formInp" placeholder="Enter date" onChange={() => {
-                            date = document.getElementById("candDate").value;
+                        <input type="text" id="candTim" className="formInp" placeholder="Enter timing for e.g. 20:30 hrs " onChange={() => {
+                            timing = document.getElementById("candTim").value;
                         }} />
                         <div className="formEle">
                             Round
@@ -79,17 +79,20 @@ export default function Interview() {
                             round = document.getElementById("candRound").value;
                         }} />
                         <div className="formEle">
+                            Call Duration
+                        </div>
+                        <input type="text" id="candCall" className="formInp" placeholder="Enter call duration e.g. 1hr 30mins " onChange={() => {
+                            callDuration = document.getElementById("candCall").value;
+                        }} />
+
+
+                        <div className="formEle">
                             Support
                         </div>
                         <input type="text" id="candTim" className="formInp" placeholder="Support" onChange={() => {
                             support = document.getElementById("candTim").value;
                         }} />
-                        <div className="formEle">
-                            Timing
-                        </div>
-                        <input type="text" id="candTim" className="formInp" placeholder="Enter timing for e.g. 3hrs " onChange={() => {
-                            timing = document.getElementById("candTim").value;
-                        }} />
+
                         <div className="formEle">
                             Feedback
                         </div>
