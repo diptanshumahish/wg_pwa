@@ -1,4 +1,4 @@
-import { getAuth,updateProfile } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import Cookies from 'js-cookie';
 import Head from "next/head";
 import s from "../styles/workpage.module.css"
@@ -215,7 +215,7 @@ export default function Work() {
                         color="primary"
                         size="lg"
                         id="updateName"
-                        placeholder="Email"
+                        placeholder="Update name"
                         onChange={() => {
                             setEmail(document.getElementById('updateName').value);
                         }}
@@ -231,6 +231,8 @@ export default function Work() {
                         closeHandler();
                         updateProfile(auth.currentUser, {
                             displayName: email,
+                        }).then(() => {
+                            document.getElementById('updateName').value = ''
                         })
 
                     }}>
