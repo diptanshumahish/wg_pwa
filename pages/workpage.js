@@ -1,4 +1,4 @@
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth,updateProfile } from "firebase/auth";
 import Cookies from 'js-cookie';
 import Head from "next/head";
 import s from "../styles/workpage.module.css"
@@ -8,6 +8,8 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
 import moment from "moment/moment";
+import { Modal, Input, Button, Text } from "@nextui-org/react";
+
 
 
 
@@ -15,6 +17,8 @@ export default function Work() {
 
     const emailFinal = Cookies.get('email');
     const [log, changeLog] = useState(false);
+    const [modalVisible, showModal] = useState(false);
+    const [email, setEmail] = useState('')
     const db = getFirestore();
     const auth = getAuth();
     const router = Router;
@@ -73,6 +77,9 @@ export default function Work() {
         update();
     }, 1800000)
 
+    function closeHandler() {
+        showModal(false);
+    }
     console.log(count);
     return (
         <div id={s.container}>
@@ -91,6 +98,7 @@ export default function Work() {
                         </div>
                     </div>
                     : <><div id={s.top}>
+
                         <div id={s.topquote}>
 
                             <div id={s.cont}>
@@ -174,6 +182,11 @@ export default function Work() {
                                     }}>
                                         Logout <br />
                                     </div></Link>
+                                <div className={s.link} id={s.name} onClick={() => {
+                                    showModal(true)
+                                }}>
+                                    Update Name
+                                </div>
                             </div>
                             <div id={s.image}>
                                 <Image src='/assets/fill.gif' width={500} height={500} alt='work' id={s.LOG} />
@@ -181,6 +194,50 @@ export default function Work() {
                         </div></>
                 }
             </main>
+            <Modal
+                closeButton
+                blur
+                aria-labelledby="modal-title"
+                open={modalVisible}
+                onClose={closeHandler}
+            >
+                <Modal.Header>
+                    <Text id="modal-title" size={18}>
+                        Update your Full name
+
+                    </Text>
+                </Modal.Header>
+                <Modal.Body>
+                    <Input
+                        clearable
+                        bordered
+                        fullWidth
+                        color="primary"
+                        size="lg"
+                        id="updateName"
+                        placeholder="Email"
+                        onChange={() => {
+                            setEmail(document.getElementById('updateName').value);
+                        }}
+
+                    />
+
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button auto flat color="error" onClick={closeHandler}>
+                        Close
+                    </Button>
+                    <Button auto onClick={() => {
+                        closeHandler();
+                        updateProfile(auth.currentUser, {
+                            displayName: email,
+                        })
+
+                    }}>
+                        Update
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

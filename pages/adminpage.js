@@ -309,7 +309,7 @@ export default function Admin() {
         },
         {
             name: 'Candidate Name',
-            selector: row => row.CandidateNme,
+            selector: row => row.CandidateName,
 
         },
         {
@@ -370,6 +370,11 @@ export default function Admin() {
 
         },
         {
+            name: 'Rate',
+            selector: row => row.Rate,
+
+        },
+        {
             name: 'Date',
             selector: row => row.Date,
             style: {
@@ -381,6 +386,9 @@ export default function Admin() {
         {
             name: 'E mail',
             selector: row => row.Email,
+            style: {
+                minWidth: '400px'
+            }
 
         },
         {
@@ -395,12 +403,7 @@ export default function Admin() {
         },
         {
             name: 'Candidate',
-            selector: row => row.candidate,
-
-        },
-        {
-            name: 'Recruiter',
-            selector: row => row.Recruiter,
+            selector: row => row.Candidate,
 
         },
         {
@@ -413,12 +416,12 @@ export default function Admin() {
             selector: row => row.Feedback,
 
         },
-        {
-            name: 'Submission date(D/M/YYYY)',
-            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
+        // {
+        //     name: 'Submission date(D/M/YYYY)',
+        //     selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
 
 
-        },
+        // },
 
     ]
     //candidates coulmn

@@ -52,25 +52,37 @@
 
 #links {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 1rem;
+    max-width: 40vw;
 
 }
 
 .link {
     background-color: var(--themeSec);
     font-size: 1.5rem;
-    font-weight: 500;
-    padding: 0.8rem 3rem;
+    font-weight: 600;
+    padding: 2rem 4rem;
+    min-width: 18rem;
     border-radius: 0.2rem;
     color: white;
+    min-height: 6rem;
     box-shadow: rgba(100, 100, 111, 0.297) 0px 7px 29px 0px;
+
+}
+
+.link:hover {
+    opacity: 0.8;
+    transition: 400ms ease;
+    box-shadow: rgba(100, 100, 111, 0.656) 0px 7px 29px 0px;
 
 }
 
 #logout {
     background-color: red;
     line-height: 1;
+    width: 100%;
 }
 
 #log {
@@ -93,4 +105,10 @@
     transform: translateX(-1rem);
     translate: -1rem -2rem;
     scale: 2;
+}
+
+#name {
+    background-color: var(--themeColor);
+    font-size: 1rwm;
+    cursor: pointer;
 }
