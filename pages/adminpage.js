@@ -377,18 +377,11 @@ export default function Admin() {
         {
             name: 'Date',
             selector: row => row.Date,
-            style: {
-                wordBreak: 'break-word',
-                width: 200
-            }
 
         },
         {
             name: 'E mail',
             selector: row => row.Email,
-            style: {
-                minWidth: '400px'
-            }
 
         },
         {
