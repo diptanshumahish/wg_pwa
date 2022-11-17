@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from "js-cookie";
 import Router from "next/router";
-import { doc, collection, getDocs, getFirestore, getDoc, query, orderBy, where, onSnapshot } from "firebase/firestore";
+import { doc, collection, getDocs, getFirestore, getDoc, query, orderBy, where, onSnapshot, Timestamp } from "firebase/firestore";
 import { Bar } from 'react-chartjs-2'
 import {
     Chart as ChartJS,
@@ -283,9 +283,14 @@ export default function Admin() {
 
         },
         {
-            name: 'Submission date(D/M/YYYY)',
-            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
+            name: 'Submission date',
+            selector: row => row.SubmissionDate.toDate().toDateString()
 
+
+        },
+        {
+            name: 'Submission Time',
+            selector: row => `${row.SubmissionDate.toDate().getHours()}:${row.SubmissionDate.toDate().getMinutes()} hrs`
 
         },
 
@@ -345,9 +350,14 @@ export default function Admin() {
 
         },
         {
-            name: 'Submission date(D/M/YYYY)',
-            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
+            name: 'Submission date',
+            selector: row => row.SubmissionDate.toDate().toDateString()
 
+
+        },
+        {
+            name: 'Submission Time',
+            selector: row => `${row.SubmissionDate.toDate().getHours()}:${row.SubmissionDate.toDate().getMinutes()} hrs`
 
         },
 
@@ -407,6 +417,17 @@ export default function Admin() {
         {
             name: 'Feedback',
             selector: row => row.Feedback,
+
+        },
+        {
+            name: 'Submission date',
+            selector: row => row.SubmissionDate.toDate().toDateString()
+
+
+        },
+        {
+            name: 'Submission Time',
+            selector: row => `${row.SubmissionDate.toDate().getHours()}:${row.SubmissionDate.toDate().getMinutes()} hrs`
 
         },
 
@@ -518,13 +539,16 @@ export default function Admin() {
 
         },
         {
-            name: 'Submission date(D/M/YYYY)',
-            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
+            name: 'Submission date',
+            selector: row => row.SubmissionDate.toDate().toDateString()
 
 
         },
+        {
+            name: 'Submission Time',
+            selector: row => `${row.SubmissionDate.toDate().getHours()}:${row.SubmissionDate.toDate().getMinutes()} hrs`
 
-
+        },
     ];
     //Feedback
     var FeedBackColumn = [
@@ -550,9 +574,14 @@ export default function Admin() {
 
         },
         {
-            name: 'Submission date(D/M/YYYY)',
-            selector: row => (`${row.SubmissionDate.toDate().getDate()}/${row.SubmissionDate.toDate().getMonth()}/${row.SubmissionDate.toDate().getFullYear()}`),
+            name: 'Submission date',
+            selector: row => row.SubmissionDate.toDate().toDateString()
 
+
+        },
+        {
+            name: 'Submission Time',
+            selector: row => `${row.SubmissionDate.toDate().getHours()}:${row.SubmissionDate.toDate().getMinutes()} hrs`
 
         },
 
@@ -857,12 +886,7 @@ export default function Admin() {
                                     setTitle('Submissions')
                                 }
                             }>Submissions</div>
-                        <div className={s.catagory} onClick={
-                            () => {
-                                getFeedback();
-                                setTitle('Feedback')
-                            }
-                        }>Feedback</div>
+                      
                         <div className={s.catagory} onClick={
                             () => {
                                 getCandidatess();
@@ -881,6 +905,12 @@ export default function Admin() {
                                 setTitle('Clients Data');
                             }
                         }>Clients</div>
+                          <div className={s.catagory} onClick={
+                            () => {
+                                getFeedback();
+                                setTitle('Feedback')
+                            }
+                        }>Feedback</div>
                     </div>
 
                     <DataTable columns={columnsTables} title={title}
