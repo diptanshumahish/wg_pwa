@@ -138,7 +138,7 @@ export default function Home() {
                           router.push('/adminpage');
                         }
                       } else {
-                        if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
+                        if (auth.currentUser.displayName == '' || auth.currentUser.email == ''  || auth.currentUser.photoURL == "") {
                           router.push('/updatedet')
                         } else {
                           router.push('/dashboard')
