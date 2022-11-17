@@ -112,3 +112,61 @@
     font-size: 1rwm;
     cursor: pointer;
 }
+
+#modalBack {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.307);
+    backdrop-filter: blur(10px);
+
+}
+
+#modal {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 3rem;
+    border-radius: 1rem;
+    gap: 1rem;
+    box-shadow: rgba(100, 100, 111, 0.297) 0px 7px 29px 0px;
+    z-index: 200;
+    transition: 600ms ease;
+}
+
+#modalHeader {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+
+
+#NameInputArea {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem
+}
+
+#ButUpdate {
+    border: none;
+    padding: 0.5rem;
+    background-color: var(--themeSec);
+    border-radius: 0.5rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: rgba(100, 100, 111, 0.297) 0px 7px 29px 0px;
+}
+
+#cross {
+    position: relative;
+    left: 100%;
+    font-size: 2rem;
+    cursor: pointer;
+
+}

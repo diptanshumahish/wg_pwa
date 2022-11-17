@@ -1,4 +1,4 @@
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import Cookies from 'js-cookie';
 import Head from "next/head";
 import s from "../styles/workpage.module.css"
@@ -8,6 +8,8 @@ import Router from "next/router";
 import { useEffect, useState } from "react";
 import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
 import moment from "moment/moment";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -15,6 +17,8 @@ export default function Work() {
 
     const emailFinal = Cookies.get('email');
     const [log, changeLog] = useState(false);
+    const [display, modalDisplay] = useState('none');
+    const [name, changeName] = useState('');
     const db = getFirestore();
     const auth = getAuth();
     const router = Router;
@@ -73,7 +77,6 @@ export default function Work() {
         update();
     }, 1800000)
 
-    console.log(count);
     return (
         <div id={s.container}>
             <Head>
@@ -91,7 +94,67 @@ export default function Work() {
                         </div>
                     </div>
                     : <><div id={s.top}>
+                        <ToastContainer
+                            position="top-center"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                        />
                         <div id={s.topquote}>
+                            <div id={s.modalBack} style={{ display: display }} >
+                                <div id={s.modal} >
+                                    <div id={s.cross} onClick={() => {
+                                        modalDisplay('none');
+                                    }}> ×</div>
+                                    <div id={s.modalHeader}>
+                                        Update Your Full Name
+                                    </div>
+                                    <div id={s.NameInputArea}>
+                                        <input type="text" id="updateName" placeholder='update your full name' onChange={() => {
+                                            changeName(document.getElementById('updateName').value);
+                                        }} />
+                                        <button type="submit" id={s.ButUpdate} onClick={() => {
+                                            if (name == '') {
+                                                toast.warn('No Name entered', {
+                                                    position: "top-right",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                    theme: "light",
+                                                });
+                                            } else {
+                                                updateProfile(auth.currentUser, {
+                                                    displayName: name
+                                                }).then(() => {
+                                                    toast.success('Sucessfuly updated name', {
+                                                        position: "top-right",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: false,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: true,
+                                                        progress: undefined,
+                                                        theme: "light",
+                                                    });
+                                                    changeName('');
+                                                    modalDisplay('none');
+                                                })
+                                            }
+                                        }}>
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div id={s.cont}>
                                 <div id={s.instructions}>
@@ -174,6 +237,11 @@ export default function Work() {
                                     }}>
                                         Logout <br />
                                     </div></Link>
+                                <div className={s.link} id={s.name} onClick={() => {
+                                    modalDisplay('flex');
+                                }}>
+                                    Update Name
+                                </div>
                             </div>
                             <div id={s.image}>
                                 <Image src='/assets/fill.gif' width={500} height={500} alt='work' id={s.LOG} />
@@ -181,6 +249,8 @@ export default function Work() {
                         </div></>
                 }
             </main>
+
         </div>
+
     )
 }

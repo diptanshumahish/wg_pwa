@@ -420,3 +420,16 @@ main {
     background-color: transparent;
   }
 }
+
+#updateName {
+  padding: 0.8rem;
+  min-width: 300px;
+  border: none;
+  background-color: rgba(128, 128, 128, 0.208);
+  border-radius: 0.5rem;
+}
+
+#updateName:focus {
+  outline: none;
+  background-color: #7d4aaa39;
+}
