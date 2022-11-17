@@ -494,7 +494,7 @@ export default function Admin() {
         },
         {
             name: 'Payment Mode',
-            selector: row => row.paymentMode,
+            selector: row => row.PaymentMode,
 
         },
         {
