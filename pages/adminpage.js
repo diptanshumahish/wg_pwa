@@ -809,7 +809,7 @@ export default function Admin() {
                 </section>
                 <section id={s.common} className={s.adminContent}>
                     <div className={s.secHead}>
-                        Employees&apos; comparitive reports
+                        Employees&apos; whole production hours
                     </div>
                     <div onClick={async () => {
                         await getData();
@@ -826,7 +826,7 @@ export default function Admin() {
                 </section>
                 <section className={s.adminContent} id={s.partEle}>
                     <div className={s.secHead}>
-                        Particular employee data
+                        Particular employee daily hours data
                     </div>
                     <div id={s.findEmp}>
                         <div id={s.findArea}>

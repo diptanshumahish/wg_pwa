@@ -81,7 +81,6 @@ export default function Work() {
         <div id={s.container}>
             <Head>
                 <title>Work Page</title>
-
             </Head>
             <main id={s.back}>
                 {!log ?
