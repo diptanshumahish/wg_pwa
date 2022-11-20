@@ -819,7 +819,6 @@ export default function Admin() {
                         <div className={s.submitButton} onClick={
                             () => {
                                 createUserWithEmailAndPassword(auth, entEmail, entPassword).then(() => {
-                                    console.log(auth.currentUser.email);
                                     toast.success('Sucessfully added new user', {
                                         position: "top-right",
                                         autoClose: 5000,

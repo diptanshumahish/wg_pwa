@@ -96,7 +96,6 @@ export default function UpdateUser() {
                     </div>
                     <input type="text" className={s.inp} id="fname" required placeholder='Enter your full name' onChange={() => {
                         fullName = document.getElementById("fname").value;
-                        console.log(fullName)
                     }} />
                     <div className={s.head}>
                         Your phone number
