@@ -65,37 +65,6 @@ export default function Admin() {
         });
         setLab(idArry);
     }
-    //labels for only particular employee
-    async function getPartEmployee() {
-
-        const docRef = doc(db, 'dailyWork', searchEmail)
-        const docSnap = (await getDoc(docRef));
-        if (docSnap.exists()) {
-            var paridArray = [];
-            var parDatArray = [];
-            var data = docSnap.data();
-            var map = Object.entries(data);
-            for (let i = 0; i < map.length; i++) {
-                paridArray.push(map[i][0]);
-            }
-            setPartLabl(paridArray);
-            for (let i = 0; i < map.length; i++) {
-                parDatArray.push(Math.round((map[i][1]) / 60 * 100) / 100);
-            }
-            setPartDat(parDatArray)
-        } else {
-            toast.error('Employee doesnot exist', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-        }
-    }
 
     //data for everyone
     async function getData() {
