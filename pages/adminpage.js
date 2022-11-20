@@ -48,18 +48,12 @@ export default function Admin() {
     const [dat, setDat] = useState([]);
     const [showBasic, setBasic] = useState('none')
     //particular
-    const [partLab, setPartLabl] = useState([]);
-    const [partDat, setPartDat] = useState([]);
-    const [partShown, setPartShown] = useState('none');
     const [searchEmail, setEmail] = useState('');
     //producityScore
     const [prodLab, setProdLab] = useState([]);
     const [proddata, setProdDat] = useState([]);
     const [showProd, setProd] = useState('none');
     //Particular Employee Productivity
-    const [partProdLab, setPartProdLab] = useState([]);
-    const [partProdData, setPartProdData] = useState([]);
-    const [showPartProd, setPartProd] = useState('none');
     const [searchPart, setPartEmail] = useState('');
     //labels for everyone
     async function getLabels() {
@@ -638,6 +632,7 @@ export default function Admin() {
     //part Prod 
     const [sortHours, setSortHours] = useState([]);
     const [month, setMonth] = useState('');
+    const[totalScore,setTotalScore]=useState(0);
     async function tableScore() {
 
         const docRef = doc(db, 'productivityScore', searchPart)
@@ -682,9 +677,14 @@ export default function Admin() {
 
                 var t = ele[0].split('/');
                 fin.push(Number(t[0]));
-                dat.push(ele[1]);
-
+            
+                dat.push(Number(ele[1]));
             })
+            var tempSum = dat.reduce((x,y)=>{
+                return x+y;
+            })
+
+            setTotalScore(tempSum);
             var newFin = [];
             newFin = fin.map((item) => { return { date: item } });
             newFin.forEach((ele, index) => {
@@ -711,6 +711,7 @@ export default function Admin() {
     ];
     const [sortHours1, setSortHours1] = useState([]);
     const [month1, setMonth1] = useState('');
+    const [totalScore1,setTotalScore1]=useState(0)
     var prodScoreColumn1 = [
         {
             name: 'date',
@@ -770,9 +771,14 @@ export default function Admin() {
 
                 var t = ele[0].split('/');
                 fin.push(Number(t[0]));
-                dat.push(ele[1]);
+                dat.push(Number(ele[1]));
 
+            });
+            var tempSum = dat.reduce((x,y)=>{
+                return x+y;
             })
+
+            setTotalScore1(tempSum);
             var newFin = [];
             newFin = fin.map((item) => { return { date: item } });
             newFin.forEach((ele, index) => {
@@ -956,6 +962,10 @@ export default function Admin() {
                     <DataTable columns={prodScoreColumn1} title={month1}
                         data={sortHours1} pagination
                     />
+                     <div className={s.totalScore}>
+                        <div className={s.tot}>Total Score</div>
+                        <div>{totalScore1}</div>
+                    </div>
 
                 </section>
                 <section className={s.adminContent}>
@@ -1093,6 +1103,10 @@ export default function Admin() {
                     <DataTable columns={prodScoreColumn} title={month}
                         data={sortHours} pagination
                     />
+                    <div className={s.totalScore}>
+                        <div className={s.tot}>Total Score</div>
+                        <div>{totalScore}</div>
+                    </div>
                 </section>
             </main>
         </div>
