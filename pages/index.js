@@ -131,14 +131,14 @@ export default function Home() {
                       Cookies.set('isLogged', 'logged', { expires: 1 / 24 });
                       Cookies.set('email', auth.currentUser.email);
 
-                      if (Cookies.get('email') == 'contact@warriorsgrp.com') {
+                      if (Cookies.get('email') == 'diptanshumahish2016@gmail.com') {
                         if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
                           router.push('/updatedet');
                         } else {
                           router.push('/adminpage');
                         }
                       } else {
-                        if (auth.currentUser.displayName == '' || auth.currentUser.email == ''  || auth.currentUser.photoURL == "") {
+                        if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.photoURL == "") {
                           router.push('/updatedet')
                         } else {
                           router.push('/dashboard')

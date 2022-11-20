@@ -131,3 +131,16 @@
 .catagory:active {
     scale: 0.95;
 }
+
+.select {
+    padding: 0.5rem 2rem;
+    border: none;
+    background-color: rgba(128, 128, 128, 0.211);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.option {
+    padding: 0.5rem;
+}

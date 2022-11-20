@@ -16,7 +16,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { useState } from "react";
+import { use, useState } from "react";
 import DataTable from "react-data-table-component";
 import React from 'react'
 
@@ -147,34 +147,6 @@ export default function Admin() {
             }
         ]
     }
-    const options1 = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                position: 'bottom',
-                text: `report for ${searchEmail}`,
-            },
-
-        },
-    }
-    const data1 = {
-        labels: partLab,
-
-        datasets: [
-            {
-                label: 'Employee production hours',
-                data: partDat,
-                backgroundColor: '#7d4aaa74',
-                borderColor: '#7d4aaa',
-                borderWidth: 1,
-
-            }
-        ]
-    }
     const options2 = {
         responsive: true,
         plugins: {
@@ -203,35 +175,6 @@ export default function Admin() {
             }
         ]
     }
-    const options3 = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                position: 'bottom',
-                text: `productivity graph for ${searchPart}`,
-            },
-
-        },
-    }
-    const data3 = {
-        labels: partProdLab,
-
-        datasets: [
-            {
-                label: 'Productivity Score',
-                data: partProdData,
-                backgroundColor: '#7d4aaa74',
-                borderColor: '#7d4aaa',
-                borderWidth: 1,
-
-            }
-        ]
-    }
-
     //data table 
     const [columnsTables, setColumns] = useState([]);
     const [dataTables, setDataT] = useState([]);
@@ -766,6 +709,80 @@ export default function Admin() {
             selector: row => row.value,
         }
     ];
+    const [sortHours1, setSortHours1] = useState([]);
+    const [month1, setMonth1] = useState('');
+    var prodScoreColumn1 = [
+        {
+            name: 'date',
+            selector: row => row.date,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.9)',
+                color: 'white',
+            },
+            sortable: true
+        },
+        {
+            name: 'Score',
+            selector: row => row.value,
+        }
+    ];
+    async function tableScore1() {
+
+        const docRef = doc(db, 'dailyWork', searchEmail)
+        const docSnap = (await getDoc(docRef));
+        if (docSnap.exists()) {
+            var tempAr = [];
+            var idCollection = [];
+            var data = docSnap.data();
+            var map = Object.entries(data);
+
+            map.forEach((ele) => {
+                var t = ele[0].toString();
+                var hi = t.split('/');
+                tempAr.push(hi[0]);
+                idCollection.push(hi[1]);
+            });
+            var idCol2 = [];
+            idCollection.filter((curr, index, ele) => {
+                if (curr == month1) {
+                    idCol2.push(index);
+                }
+                if (idCol2 == []) {
+                    toast.error('No data for the month', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                };
+            });
+            var finalAr = [];
+            idCol2.forEach((ele) => {
+                finalAr.push(map[ele]);
+            });
+            var fin = [];
+            var dat = [];
+            finalAr.forEach((ele) => {
+
+                var t = ele[0].split('/');
+                fin.push(Number(t[0]));
+                dat.push(ele[1]);
+
+            })
+            var newFin = [];
+            newFin = fin.map((item) => { return { date: item } });
+            newFin.forEach((ele, index) => {
+                ele['id'] = index + 1
+                ele['value'] = dat[index];
+            });
+            setSortHours1(newFin);
+        }
+    }
+
     return (
         <div>
             <Head>
@@ -878,6 +895,28 @@ export default function Admin() {
                                 }} />
                             </div>
                             <div className={s.findSpace}>
+                                <div className={s.inpHead}>
+                                    Select Month
+                                </div>
+                                <select id="month1" class={s.select} onChange={() => {
+                                    setMonth1(document.getElementById("month1").value);
+                                }} required>
+                                    <option value="January" className={s.option}>January</option>
+                                    <option value="February" className={s.option} >February</option>
+                                    <option value="March" className={s.option}>March</option>
+                                    <option value="April" className={s.option}>April</option>
+                                    <option value="May" className={s.option}>May</option>
+                                    <option value="June" className={s.option}>June</option>
+                                    <option value="July" className={s.option}>July</option>
+                                    <option value="August" className={s.option}>August</option>
+                                    <option value="September" className={s.option}>September</option>
+                                    <option value="October" className={s.option}>October</option>
+                                    <option value="November" className={s.option}>November</option>
+                                    <option value="December" className={s.option}>December</option>
+                                </select >
+                            </div>
+
+                            <div className={s.findSpace}>
                                 <div className={s.submitButton} onClick={
                                     () => {
                                         if (searchEmail == '') {
@@ -893,13 +932,20 @@ export default function Admin() {
                                             });
                                             document.getElementById('searchEmail').value = '';
                                         }
-                                        else {
-                                            getPartEmployee().then(() => {
-                                                setPartShown('block');
-                                                document.getElementById('searchEmail').value = '';
-                                            })
+                                        if (month1 != '') {
+                                            tableScore1();
+                                        } else {
+                                            toast.error('No month entered', {
+                                                position: "top-right",
+                                                autoClose: 5000,
+                                                hideProgressBar: false,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                                theme: "light",
+                                            });
                                         }
-
 
                                     }
 
@@ -907,9 +953,8 @@ export default function Admin() {
                             </div>
                         </div>
                     </div>
-                    <Bar style={{ display: partShown }}
-                        options={options1} data={data1}
-
+                    <DataTable columns={prodScoreColumn1} title={month1}
+                        data={sortHours1} pagination
                     />
 
                 </section>
@@ -989,7 +1034,7 @@ export default function Admin() {
                                 <div className={s.inpHead}>
                                     Select Month
                                 </div>
-                                <select id="month" onChange={() => {
+                                <select id="month" class={s.select} onChange={() => {
                                     setMonth(document.getElementById("month").value);
                                 }} required>
                                     <option value="January">January</option>
