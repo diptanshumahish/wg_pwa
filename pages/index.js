@@ -131,7 +131,7 @@ export default function Home() {
                       Cookies.set('isLogged', 'logged', { expires: 1 / 24 });
                       Cookies.set('email', auth.currentUser.email);
 
-                      if (Cookies.get('email') == 'warriorsgrp.com.com') {
+                      if (Cookies.get('email') == 'contact@warriorsgrp.com') {
                         if (auth.currentUser.displayName == '' || auth.currentUser.email == '' || auth.currentUser.displayName == null || auth.currentUser.photoURL == null || auth.currentUser.photoURL == "") {
                           router.push('/updatedet');
                         } else {
