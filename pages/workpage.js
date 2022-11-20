@@ -40,7 +40,7 @@ export default function Work() {
             // alert("You have not updated your time");
         }
     }, [])
-    const mom = moment().format('Do MMMM, YYYY');
+    const mom = moment().format('D/MMMM/YYYY');
 
 
     var count = 0;
