@@ -29,7 +29,7 @@ export default function Submissions() {
     var rate = '';
 
     var mom = moment().format('Do MMMM  YYYY,h:mm:ss a ');
-    var mom1 = moment().format('Do MMMM  YYYY');
+    var mom1 = moment().format('D/MMMM/YYYY');
 
     async function update() {
         updateScore();
@@ -54,7 +54,7 @@ export default function Submissions() {
         await getCurrentScore();
 
         setDoc(doc(db, "productivityScore", `${auth.currentUser.email}`), {
-            [mom1]: score
+            [mom1]: score + 1
         }, { merge: true, mergeFields: true })
     }
 
@@ -67,12 +67,10 @@ export default function Submissions() {
             var main = map.find((item) => {
                 return item[0] === mom1
             })
-
             if (main == undefined) {
                 return 0
             } else {
-
-                return (main[1] + 1)
+                return (main[1])
             }
         } else {
             return 0

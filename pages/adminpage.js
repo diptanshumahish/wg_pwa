@@ -617,7 +617,6 @@ export default function Admin() {
             setDataT(temp);
         })
         setColumns(submissionsCol);
-
     }
     async function getCandidatess() {
         var temp = [];
@@ -668,7 +667,7 @@ export default function Admin() {
         setColumns(FeedBackColumn);
 
     }
-    //productivity 
+    //productivity
     async function getProdEmail() {
         var id = []
         const querySnapshot = await getDocs(collection(db, "productivityScore"));
@@ -693,38 +692,80 @@ export default function Admin() {
         });
         setProdDat(genProdData);
     }
-    //part Prod
-    async function getPartProd() {
+    //part Prod 
+    const [sortHours, setSortHours] = useState([]);
+    const [month, setMonth] = useState('');
+    async function tableScore() {
 
         const docRef = doc(db, 'productivityScore', searchPart)
         const docSnap = (await getDoc(docRef));
         if (docSnap.exists()) {
-            var paridArray = [];
-            var parDatArray = [];
+            var tempAr = [];
+            var idCollection = [];
             var data = docSnap.data();
             var map = Object.entries(data);
-            for (let i = 0; i < map.length; i++) {
-                paridArray.push(map[i][0]);
-            }
-            setPartProdLab(paridArray);
-            for (let i = 0; i < map.length; i++) {
-                parDatArray.push(map[i][1]);
-            }
-            setPartProdData(parDatArray)
-        } else {
-            toast.error('Employee doesnot exist', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
+
+            map.forEach((ele) => {
+                var t = ele[0].toString();
+                var hi = t.split('/');
+                tempAr.push(hi[0]);
+                idCollection.push(hi[1]);
             });
+            var idCol2 = [];
+            idCollection.filter((curr, index, ele) => {
+                if (curr == month) {
+                    idCol2.push(index);
+                }
+                if (idCol2 == []) {
+                    toast.error('No data for the month', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                };
+            });
+            var finalAr = [];
+            idCol2.forEach((ele) => {
+                finalAr.push(map[ele]);
+            });
+            var fin = [];
+            var dat = [];
+            finalAr.forEach((ele) => {
+
+                var t = ele[0].split('/');
+                fin.push(Number(t[0]));
+                dat.push(ele[1]);
+
+            })
+            var newFin = [];
+            newFin = fin.map((item) => { return { date: item } });
+            newFin.forEach((ele, index) => {
+                ele['id'] = index + 1
+                ele['value'] = dat[index];
+            });
+            setSortHours(newFin);
         }
     }
-
+    var prodScoreColumn = [
+        {
+            name: 'date',
+            selector: row => row.date,
+            style: {
+                backgroundColor: 'rgba(63, 195, 128, 0.9)',
+                color: 'white',
+            },
+            sortable: true
+        },
+        {
+            name: 'Score',
+            selector: row => row.value,
+        }
+    ];
     return (
         <div>
             <Head>
@@ -754,10 +795,8 @@ export default function Admin() {
 
                                     Cookies.remove('isLogged');
                                     router.push('/');
-
                                 })
                         }
-
                     }>
                         Sign Out
                     </div>
@@ -886,7 +925,7 @@ export default function Admin() {
                                     setTitle('Submissions')
                                 }
                             }>Submissions</div>
-                      
+
                         <div className={s.catagory} onClick={
                             () => {
                                 getCandidatess();
@@ -905,7 +944,7 @@ export default function Admin() {
                                 setTitle('Clients Data');
                             }
                         }>Clients</div>
-                          <div className={s.catagory} onClick={
+                        <div className={s.catagory} onClick={
                             () => {
                                 getFeedback();
                                 setTitle('Feedback')
@@ -947,6 +986,27 @@ export default function Admin() {
                                 }} />
                             </div>
                             <div className={s.findSpace}>
+                                <div className={s.inpHead}>
+                                    Select Month
+                                </div>
+                                <select id="month" onChange={() => {
+                                    setMonth(document.getElementById("month").value);
+                                }} required>
+                                    <option value="January">January</option>
+                                    <option value="February" >February</option>
+                                    <option value="March">March</option>
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="August">August</option>
+                                    <option value="September">September</option>
+                                    <option value="October">October</option>
+                                    <option value="November">November</option>
+                                    <option value="December">December</option>
+                                </select >
+                            </div>
+                            <div className={s.findSpace}>
                                 <div className={s.submitButton} onClick={
                                     () => {
                                         if (searchPart == '') {
@@ -963,22 +1023,30 @@ export default function Admin() {
                                             document.getElementById('searchPartEmail').value = '';
                                         }
                                         else {
-                                            getPartProd().then(() => {
-                                                setPartProd('block');
-                                                document.getElementById('searchPartEmail').value = '';
-                                            })
+                                            if (month != '') {
+                                                tableScore();
+                                            } else {
+                                                toast.error('No month entered', {
+                                                    position: "top-right",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                    theme: "light",
+                                                });
+                                            }
+
                                         }
-
-
                                     }
 
                                 }>Search</div>
                             </div>
                         </div>
                     </div>
-                    <Bar
-                        options={options3} data={data3} style={{ display: showPartProd }}
-
+                    <DataTable columns={prodScoreColumn} title={month}
+                        data={sortHours} pagination
                     />
                 </section>
             </main>
