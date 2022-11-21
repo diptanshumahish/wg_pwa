@@ -752,7 +752,7 @@ export default function Admin() {
 
                 var t = ele[0].split('/');
                 fin.push(Number(t[0]));
-                dat.push(Number(ele[1]));
+                dat.push(Number(Math.round((ele[1]) / 60 * 100) / 100));
 
             });
             var tempSum = dat.reduce((x, y) => {
