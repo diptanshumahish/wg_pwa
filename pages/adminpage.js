@@ -704,7 +704,7 @@ export default function Admin() {
             sortable: true
         },
         {
-            name: 'Score',
+            name: 'Hours',
             selector: row => row.value,
         }
     ];
@@ -945,7 +945,7 @@ export default function Admin() {
                         data={sortHours1} pagination
                     />
                     <div className={s.totalScore}>
-                        <div className={s.tot}>Total Score</div>
+                        <div className={s.tot}>Total Hours</div>
                         <div>{totalScore1}</div>
                     </div>
 
