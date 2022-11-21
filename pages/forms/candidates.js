@@ -11,7 +11,7 @@ export default function Candidates() {
 
 
     const [clicked, changeClick] = useState('1');
-
+    
     var score = 0;
 
     const auth = getAuth();

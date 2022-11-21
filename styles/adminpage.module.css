@@ -154,3 +154,13 @@
 .totalScore {
     padding: 2rem;
 }
+
+#download {
+    padding: 1rem 2rem;
+    background-color: var(--themeSec);
+    display: flex;
+    color: white;
+    width: fit-content;
+    margin-left: 1rem;
+    border-radius: 0.2rem;
+}

@@ -16,7 +16,8 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { use, useState } from "react";
+import { useState } from "react";
+import { CSVLink, CSVDownload } from "react-csv";
 import DataTable from "react-data-table-component";
 import React from 'react'
 
@@ -146,6 +147,7 @@ export default function Admin() {
         {
             name: 'Submitted By',
             selector: row => row.submittedBy,
+            grow: 2,
             style: {
                 backgroundColor: 'rgba(63, 195, 128, 0.9)',
                 color: 'white',
@@ -298,26 +300,31 @@ export default function Admin() {
         {
             name: 'E mail',
             selector: row => row.Email,
+            grow: 3
 
         },
         {
             name: 'Organization',
             selector: row => row.Organization,
+            grow: 2
 
         },
         {
             name: 'Mobile Number',
             selector: row => row.MobileNumber,
+            grow: 2
 
         },
         {
             name: 'Candidate',
             selector: row => row.Candidate,
+            grow: 2
 
         },
         {
             name: 'End Client',
             selector: row => row.EndClient,
+            grow: 2
 
         },
         {
@@ -327,7 +334,8 @@ export default function Admin() {
         },
         {
             name: 'Submission date',
-            selector: row => row.SubmissionDate.toDate().toDateString()
+            selector: row => row.SubmissionDate.toDate().toDateString(),
+            grow: 2
 
 
         },
@@ -362,6 +370,7 @@ export default function Admin() {
         {
             name: 'Technology',
             selector: row => row.Technology,
+            grow: 2
 
         },
         {
@@ -402,6 +411,7 @@ export default function Admin() {
         {
             name: 'Email',
             selector: row => row.Email,
+            grow: 2
 
         },
         {
@@ -417,6 +427,7 @@ export default function Admin() {
         {
             name: 'LinkedIn',
             selector: row => row.LinkedIn,
+            grow: 2
 
         },
         {
@@ -442,6 +453,7 @@ export default function Admin() {
         {
             name: 'Comments',
             selector: row => row.Comments,
+            grow: 2
 
         },
         {
@@ -601,7 +613,7 @@ export default function Admin() {
     //part Prod 
     const [sortHours, setSortHours] = useState([]);
     const [month, setMonth] = useState('');
-    const[totalScore,setTotalScore]=useState(0);
+    const [totalScore, setTotalScore] = useState(0);
     async function tableScore() {
 
         const docRef = doc(db, 'productivityScore', searchPart)
@@ -646,11 +658,11 @@ export default function Admin() {
 
                 var t = ele[0].split('/');
                 fin.push(Number(t[0]));
-            
+
                 dat.push(Number(ele[1]));
             })
-            var tempSum = dat.reduce((x,y)=>{
-                return x+y;
+            var tempSum = dat.reduce((x, y) => {
+                return x + y;
             })
 
             setTotalScore(tempSum);
@@ -680,7 +692,7 @@ export default function Admin() {
     ];
     const [sortHours1, setSortHours1] = useState([]);
     const [month1, setMonth1] = useState('');
-    const [totalScore1,setTotalScore1]=useState(0)
+    const [totalScore1, setTotalScore1] = useState(0)
     var prodScoreColumn1 = [
         {
             name: 'date',
@@ -743,8 +755,8 @@ export default function Admin() {
                 dat.push(Number(ele[1]));
 
             });
-            var tempSum = dat.reduce((x,y)=>{
-                return x+y;
+            var tempSum = dat.reduce((x, y) => {
+                return x + y;
             })
 
             setTotalScore1(tempSum);
@@ -757,6 +769,8 @@ export default function Admin() {
             setSortHours1(newFin);
         }
     }
+
+    const [dnld, ShowDnld] = useState('none')
 
     return (
         <div>
@@ -930,7 +944,7 @@ export default function Admin() {
                     <DataTable columns={prodScoreColumn1} title={month1}
                         data={sortHours1} pagination
                     />
-                     <div className={s.totalScore}>
+                    <div className={s.totalScore}>
                         <div className={s.tot}>Total Score</div>
                         <div>{totalScore1}</div>
                     </div>
@@ -944,6 +958,7 @@ export default function Admin() {
                         <div className={s.catagory}
                             onClick={
                                 () => {
+                                    ShowDnld('block')
                                     getSubmissions();
                                     setTitle('Submissions')
                                 }
@@ -951,29 +966,34 @@ export default function Admin() {
 
                         <div className={s.catagory} onClick={
                             () => {
+                                ShowDnld('block')
                                 getCandidatess();
                                 setTitle('candidates')
                             }
                         }>Candidates</div>
                         <div className={s.catagory} onClick={
                             () => {
+                                ShowDnld('block')
                                 getInterviews();
                                 setTitle('Interviews');
                             }
                         }>Interviews</div>
                         <div className={s.catagory} onClick={
                             () => {
+                                ShowDnld('block')
                                 getClients();
                                 setTitle('Clients Data');
                             }
                         }>Clients</div>
                         <div className={s.catagory} onClick={
                             () => {
+                                ShowDnld('block')
                                 getFeedback();
                                 setTitle('Feedback')
                             }
                         }>Feedback</div>
                     </div>
+                    <CSVLink style={{ display: dnld }} id={s.download} data={dataTables} filename={`${title}_${Date.now()}`}>Download CSV</CSVLink>
 
                     <DataTable columns={columnsTables} title={title}
                         data={dataTables} pagination
