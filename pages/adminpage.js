@@ -769,6 +769,118 @@ export default function Admin() {
             setSortHours1(newFin);
         }
     }
+    //for login and logout data
+    const [logEmail, logShown] = useState('');
+    const [months2, setMonth2] = useState('');
+    const [logStuff, setLogStuff] = useState([]);
+    async function logData() {
+        const docRef = doc(db, 'logData', logEmail)
+        const docSnap = (await getDoc(docRef));
+        if (docSnap.exists()) {
+            var tempAr = [];
+            var idCollection = [];
+            var time = [];
+            var data = docSnap.data();
+            var map = Object.entries(data);
+
+            map.forEach((ele) => {
+                var t = ele[0].toString();
+                var hi = t.split(' ');
+                tempAr.push(hi[0]);
+                idCollection.push(hi[1]);
+                time.push(hi[2]);
+            });
+            var idCol2 = [];
+            idCollection.filter((curr, index, ele) => {
+                if (curr == months2) {
+                    idCol2.push(index);
+                }
+                if (idCol2 == []) {
+                    toast.error('No data for the month', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                };
+            });
+            var finalAr = [];
+            idCol2.forEach((ele) => {
+                finalAr.push(map[ele]);
+            });
+            var fin = [];
+            var dat = [];
+            var time = [];
+            finalAr.forEach((ele) => {
+
+                var t = ele[0].split(' ');
+                fin.push(Number(t[0]));
+                dat.push(ele[1]);
+                time.push(t[2]);
+
+            });
+            var newFin = [];
+            newFin = fin.map((item) => { return { date: item } });
+            newFin.forEach((ele, index) => {
+                ele['id'] = index
+                ele['value'] = dat[index];
+                ele['time'] = time[index];
+            });
+            // console.log(newFin);
+            setLogStuff(newFin);
+        }
+
+    }
+    var logSt = [
+        {
+            name: 'date',
+            selector: row => row.date,
+
+            sortable: true
+        },
+        {
+            name: 'time',
+            selector: row => row.time,
+        },
+        {
+            name: 'event',
+            selector: row => row.value,
+            conditionalCellStyles: [
+                {
+                    when: row => row.value == 'login',
+                    style: {
+                        backgroundColor: "green",
+                        color: 'white'
+                    }
+                },
+                {
+                    when: row => row.value == 'logout',
+                    style: {
+                        backgroundColor: "red",
+                        color: 'white'
+                    }
+                },
+                {
+                    when: row => row.value == "break start",
+                    style: {
+                        backgroundColor: "orange",
+                        color: 'white'
+                    }
+                },
+                {
+                    when: row => row.value == "break end",
+                    style: {
+                        backgroundColor: "blue",
+                        color: 'white'
+                    }
+                }
+            ]
+        }
+    ];
 
     const [dnld, ShowDnld] = useState('none')
 
@@ -1095,6 +1207,85 @@ export default function Admin() {
                         <div className={s.tot}>Total Score</div>
                         <div>{totalScore}</div>
                     </div>
+                </section>
+                <section className={s.adminContent}>
+                    <div className={s.secHead}>
+                        Login data for employees
+                    </div>
+                    <div id={s.findEmp}>
+                        <div id={s.findArea}>
+                            <div className={s.findSpace}>
+                                <div className={s.inpHead}>
+                                    Email
+                                </div>
+                                <input type="email" placeholder="Enter user email" className={s.input} id="searchPartEmail2" onChange={() => {
+                                    logShown(document.getElementById('searchPartEmail2').value);
+
+                                }} />
+                            </div>
+                            <div className={s.findSpace}>
+                                <div className={s.inpHead}>
+                                    Select Month
+                                </div>
+                                <select id="month2" class={s.select} onChange={() => {
+                                    setMonth2(document.getElementById("month2").value);
+                                }} required>
+                                    <option value="January">January</option>
+                                    <option value="February" >February</option>
+                                    <option value="March">March</option>
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="August">August</option>
+                                    <option value="September">September</option>
+                                    <option value="October">October</option>
+                                    <option value="November">November</option>
+                                    <option value="December">December</option>
+                                </select >
+                            </div>
+                            <div className={s.findSpace}>
+                                <div className={s.submitButton} onClick={
+                                    () => {
+                                        if (logEmail == '') {
+                                            toast.error('No email entered', {
+                                                position: "top-right",
+                                                autoClose: 5000,
+                                                hideProgressBar: false,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                                theme: "light",
+                                            });
+                                            document.getElementById('searchPartEmail').value = '';
+                                        }
+                                        else {
+                                            if (months2 != '') {
+                                                logData();
+                                            } else {
+                                                toast.error('No month entered', {
+                                                    position: "top-right",
+                                                    autoClose: 5000,
+                                                    hideProgressBar: false,
+                                                    closeOnClick: true,
+                                                    pauseOnHover: true,
+                                                    draggable: true,
+                                                    progress: undefined,
+                                                    theme: "light",
+                                                });
+                                            }
+
+                                        }
+                                    }
+
+                                }>Search</div>
+                            </div>
+                        </div>
+                    </div>
+                    <DataTable columns={logSt} title={months2}
+                        data={logStuff} pagination
+                    />
                 </section>
             </main>
         </div>

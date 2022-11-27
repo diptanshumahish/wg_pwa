@@ -14,7 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 export default function Work() {
-
+    const mom1 = moment().format('D MMMM h:mma');
     const emailFinal = Cookies.get('email');
     const [log, changeLog] = useState(false);
     const [display, modalDisplay] = useState('none');
@@ -23,6 +23,7 @@ export default function Work() {
     const auth = getAuth();
     const router = Router;
     const [isBreak, changeIsBreak] = useState(true);
+    upLogin();
 
     getCurrentDuration().then((value) => {
         count = value;
@@ -43,11 +44,36 @@ export default function Work() {
     const mom = moment().format('D/MMMM/YYYY');
 
 
+
     var count = 0;
 
     async function update() {
         setDoc(doc(db, "dailyWork", emailFinal), {
             [`${mom}`]: count
+        }, { merge: true, mergeFields: true });
+    }
+    //set login time
+    async function upLogin() {
+        setDoc(doc(db, "logData", emailFinal), {
+            [`${mom1}`]: "login"
+        }, { merge: true, mergeFields: true });
+    }
+    //set logout time
+    async function upLogout() {
+        setDoc(doc(db, "logData", emailFinal), {
+            [`${mom1}`]: "logout"
+        }, { merge: true, mergeFields: true });
+    }
+    //start break
+    async function upBreakstart() {
+        setDoc(doc(db, "logData", emailFinal), {
+            [`${mom1}`]: "break start"
+        }, { merge: true, mergeFields: true });
+    }
+    //break end
+    async function upBreakEnd() {
+        setDoc(doc(db, "logData", emailFinal), {
+            [`${mom1}`]: "break end"
         }, { merge: true, mergeFields: true });
     }
     async function getCurrentDuration() {
@@ -167,12 +193,14 @@ export default function Work() {
                                 </div>
                                 <div id={s.break} onClick={
                                     isBreak ? async () => {
+                                        upBreakstart();
                                         changeIsBreak(false);
                                         await update();
                                         clearInterval(int);
                                         clearInterval(up);
                                     } : async () => {
                                         changeIsBreak(true);
+                                        upBreakEnd();
                                         const tr = setInterval(() => {
                                             clearInterval(int);
                                             clearInterval(up);
@@ -229,6 +257,7 @@ export default function Work() {
                                     </div></Link>
                                 <Link href='/'>
                                     <div className={s.link} id={s.logout} onClick={() => {
+                                        upLogout();
                                         update().then(() => {
                                             router.push('/dashboard');
                                         });
