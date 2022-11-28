@@ -23,8 +23,6 @@ export default function Work() {
     const auth = getAuth();
     const router = Router;
     const [isBreak, changeIsBreak] = useState(true);
-    upLogin();
-
     getCurrentDuration().then((value) => {
         count = value;
     })
@@ -50,12 +48,6 @@ export default function Work() {
     async function update() {
         setDoc(doc(db, "dailyWork", emailFinal), {
             [`${mom}`]: count
-        }, { merge: true, mergeFields: true });
-    }
-    //set login time
-    async function upLogin() {
-        setDoc(doc(db, "logData", emailFinal), {
-            [`${mom1}`]: "login"
         }, { merge: true, mergeFields: true });
     }
     //set logout time

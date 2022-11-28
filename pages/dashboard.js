@@ -8,9 +8,13 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import moment from 'moment';
+import { doc, setDoc, getFirestore } from "firebase/firestore";
 
 
 export default function Dashboard() {
+    const mom1 = moment().format('D MMMM h:mma');
+    const emailFinal = Cookies.get('email');
+    const db = getFirestore();
     useEffect(() => {
         Cookies.get('isLogged') == 'logged'
             ? changeLog(true)
@@ -23,6 +27,11 @@ export default function Dashboard() {
     var router = useRouter();
     const auth = getAuth();
     const [log, changeLog] = useState(false);
+    async function upLogin() {
+        setDoc(doc(db, "logData", emailFinal), {
+            [`${mom1}`]: "login"
+        }, { merge: true, mergeFields: true });
+    }
 
     return (
         <div id={s.container}>
@@ -73,7 +82,9 @@ export default function Dashboard() {
                                         Welcome, <br />
                                         <span>{`${auth.currentUser.displayName}`}</span>
                                         Have a nice day 😊
-                                        <Link href='/workpage'>
+                                        <Link href='/workpage' onClick={() => {
+                                            upLogin();
+                                        }}>
                                             <div id={s.startWork}>
                                                 Begin Work
                                             </div>
