@@ -27,7 +27,7 @@ export default function Work() {
     const [clickable, changeClickable] = useState('0');
     getCurrentDuration().then((value) => {
         count = value;
-        chagneCount(value);
+        // chagneCount(value);
     })
     useEffect(() => {
 
@@ -49,9 +49,10 @@ export default function Work() {
     var count = 0;
 
     async function update() {
+        console.log("update")
         setDoc(doc(db, "dailyWork", emailFinal), {
             [`${mom}`]: count
-        }, { merge: true, mergeFields: true }).then(() => {
+        },).then(() => {
             chagneCount(count);
         })
     }
@@ -59,20 +60,20 @@ export default function Work() {
     async function upLogout() {
         setDoc(doc(db, "logData", emailFinal), {
             [`${mom1}`]: "logout"
-        }, { merge: true, mergeFields: true });
+        });
     }
     //start break
-    async function upBreakstart() {
-        setDoc(doc(db, "logData", emailFinal), {
-            [`${mom1}`]: "break start"
-        }, { merge: true, mergeFields: true });
-    }
+    // async function upBreakstart() {
+    //     setDoc(doc(db, "logData", emailFinal), {
+    //         [`${mom1}`]: "break start"
+    //     }, { merge: true, mergeFields: true });
+    // }
     //break end
-    async function upBreakEnd() {
-        setDoc(doc(db, "logData", emailFinal), {
-            [`${mom1}`]: "break end"
-        }, { merge: true, mergeFields: true });
-    }
+    // async function upBreakEnd() {
+    //     setDoc(doc(db, "logData", emailFinal), {
+    //         [`${mom1}`]: "break end"
+    //     }, { merge: true, mergeFields: true });
+    // }
     async function getCurrentDuration() {
 
         const docRef = doc(db, 'dailyWork', emailFinal)
@@ -196,9 +197,7 @@ export default function Work() {
                                 </div>
                                 <div id={s.break} onClick={
                                     isBreak ? async () => {
-                                        upBreakstart();
                                         changeIsBreak(false);
-
                                         await update();
                                         clearInterval(int);
                                         clearInterval(up);
@@ -206,12 +205,10 @@ export default function Work() {
 
                                     } : async () => {
                                         changeIsBreak(true);
-
-                                        upBreakEnd();
                                         const tr = setInterval(() => {
                                             clearInterval(int);
                                             clearInterval(up);
-                                        }, 1800000);
+                                        }, 6000);
                                         clearInterval(tr);
 
 
@@ -223,11 +220,11 @@ export default function Work() {
                                 </div>
                             </div>
                             <span id={s.mot}>Keep up the good Work!😊</span> <br />
-                            <span>Total work duration: <br />
+                            {/* <span>Total work duration: <br />
                                 <span id={s.tim}> {Math.floor(showCount / 60)} hrs : {showCount % 60} mins <br /></span>
                                 (This count updates every 30 mins)
 
-                            </span>
+                            </span> */}
 
                         </div>
                     </div><div id={s.mainItems}>
