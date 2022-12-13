@@ -82,10 +82,10 @@ export default function Dashboard() {
                                         Welcome, <br />
                                         <span>{`${auth.currentUser.displayName}`}</span>
                                         Have a nice day 😊
-                                        <Link href='/workpage' onClick={() => {
-                                            upLogin();
-                                        }}>
-                                            <div id={s.startWork}>
+                                        <Link href='/workpage' >
+                                            <div id={s.startWork} onClick={async () => {
+                                                await upLogin();
+                                            }}>
                                                 Begin Work
                                             </div>
                                         </Link>
