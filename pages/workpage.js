@@ -30,12 +30,9 @@ export default function Work() {
         // chagneCount(value);
     })
     useEffect(() => {
-
         Cookies.get('isLogged') == 'logged'
             ? changeLog(true)
             : changeLog(false);
-
-
         return () => {
             clearInterval(int);
             clearInterval(up);
@@ -52,7 +49,7 @@ export default function Work() {
         console.log("update")
         setDoc(doc(db, "dailyWork", emailFinal), {
             [`${mom}`]: count
-        },).then(() => {
+        }, { merge: true, mergeFields: true }).then(() => {
             chagneCount(count);
         })
     }
