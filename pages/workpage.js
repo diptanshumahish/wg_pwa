@@ -6,15 +6,14 @@ import Link from "next/link";
 import Image from "next/image";
 import Router from "next/router";
 import { useEffect, useState } from "react";
-import { doc, getDoc, setDoc, getFirestore } from "firebase/firestore";
+import { doc, setDoc, getFirestore } from "firebase/firestore";
 import moment from "moment/moment";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 
-
-
 export default function Work() {
-    const mom1 = moment().format('D MMMM h:mma');
+    // const mom1 = moment().format('D MMMM h:mma');
+
     const emailFinal = Cookies.get('email');
     const [log, changeLog] = useState(false);
     const [display, modalDisplay] = useState('none');
@@ -24,85 +23,106 @@ export default function Work() {
     const router = Router;
     const [isBreak, changeIsBreak] = useState(true);
     const [showCount, chagneCount] = useState(0);
-    const [clickable, changeClickable] = useState('0');
-    getCurrentDuration().then((value) => {
-        count = value;
-        // chagneCount(value);
-    })
+    const mom = moment().format('D/MMMM/YYYY');
+
+    // getCurrentDuration().then((value) => {
+    //     count = value;
+    //     // chagneCount(value);
+    // })
+
+    const momdate = moment().format('D');
+    const [stop, changeStop] = useState(0);
+    const [displayTime, changeDisplayTime] = useState('1');
+    const [clickAllow, changeClickAllow] = useState('all');
     useEffect(() => {
+        if (Cookies.get('dailyWork') == undefined) {
+            Cookies.set("dailyWork", 0, { expires: 15 });
+        }
+        if (Cookies.get('updateDate') == undefined) {
+            Cookies.set('updateDate', mom, { expires: 15 });
+        }
+        if (Cookies.get('todayDate') == undefined) {
+            Cookies.set('todayDate', momdate, { expires: 15 });
+        }
+        if (Cookies.get('todayDate') != momdate) {
+            setDoc(doc(db, "dailyWork", emailFinal), {
+                [`${Cookies.get('updateDate')}`]: parseInt(Cookies.get('dailyWork'))
+            }, { merge: true, mergeFields: true }).then(() => {
+                Cookies.set("dailyWork", 0);
+                Cookies.set('todayDate', momdate);
+                Cookies.set('updateDate', mom);
+            });
+        }
+        var counter = setInterval(() => {
+            var temp = Cookies.get('dailyWork');
+            temp++;
+            chagneCount(temp);
+            Cookies.set('dailyWork', temp);
+        }, 60000);
         Cookies.get('isLogged') == 'logged'
             ? changeLog(true)
             : changeLog(false);
         return () => {
-            clearInterval(int);
-            clearInterval(up);
-            clearTimeout(cl);
+            clearInterval(counter);
         }
-    }, [])
-    const mom = moment().format('D/MMMM/YYYY');
+    }, []);
+    // var count = 0;
 
-
-
-    var count = 0;
-
-    async function update() {
-        console.log("update")
-        setDoc(doc(db, "dailyWork", emailFinal), {
-            [`${mom}`]: count
-        }, { merge: true, mergeFields: true }).then(() => {
-            chagneCount(count);
-        })
-    }
-    //set logout time
-    async function upLogout() {
-        setDoc(doc(db, "logData", emailFinal), {
-            [`${mom1}`]: "logout"
-        });
-    }
-    //start break
+    // async function update() {
+    //     console.log("update")
+    //     setDoc(doc(db, "dailyWork", emailFinal), {
+    //         [`${mom}`]: count
+    //     }, { merge: true, mergeFields: true }).then(() => {
+    //         chagneCount(count);
+    //     })
+    // }
+    // //set logout time
+    // async function upLogout() {
+    //     setDoc(doc(db, "logData", emailFinal), {
+    //         [`${mom1}`]: "logout"
+    //     });
+    // }
+    // // start break
     // async function upBreakstart() {
     //     setDoc(doc(db, "logData", emailFinal), {
     //         [`${mom1}`]: "break start"
     //     }, { merge: true, mergeFields: true });
     // }
-    //break end
+    // // break end
     // async function upBreakEnd() {
     //     setDoc(doc(db, "logData", emailFinal), {
     //         [`${mom1}`]: "break end"
     //     }, { merge: true, mergeFields: true });
     // }
-    async function getCurrentDuration() {
+    // async function getCurrentDuration() {
 
-        const docRef = doc(db, 'dailyWork', emailFinal)
-        const docSnap = (await getDoc(docRef));
-        if (docSnap.exists()) {
-            var data = docSnap.data();
-            var map = Object.entries(data)
+    //     const docRef = doc(db, 'dailyWork', emailFinal)
+    //     const docSnap = (await getDoc(docRef));
+    //     if (docSnap.exists()) {
+    //         var data = docSnap.data();
+    //         var map = Object.entries(data)
 
-            var main = map.find((item) => {
-                return item[0] === mom
-            })
-            if (main == undefined) {
-                return 0
-            } else {
-                return main[1]
-            }
-        } else {
-            return 0
-        }
-    }
-    var int = setInterval(() => {
-        count++;
-    }, 60000)
-    var up = setInterval(() => {
-        update().then(() => {
-            chagneCount(count);
-        });
-    }, 1800000);
-    var cl = setTimeout(() => {
-        changeClickable('1');
-    }, 60000)
+    //         var main = map.find((item) => {
+    //             return item[0] === mom
+    //         })
+    //         if (main == undefined) {
+    //             return 0
+    //         } else {
+    //             return main[1]
+    //         }
+    //     } else {
+    //         return 0
+    //     }
+    // }
+    // var int = setInterval(() => {
+    //     count++;
 
+    // }, 60000)
+    // var up = setInterval(() => {
+    //     update().then(() => {
+    //         chagneCount(count);
+    //     });
+    // }, 1800000);
     return (
         <div id={s.container}>
             <Head>
@@ -195,20 +215,16 @@ export default function Work() {
                                 <div id={s.break} onClick={
                                     isBreak ? async () => {
                                         changeIsBreak(false);
-                                        await update();
-                                        clearInterval(int);
-                                        clearInterval(up);
-
+                                        changeStop(parseInt(Cookies.get('dailyWork')));
+                                        changeDisplayTime('0')
+                                        changeClickAllow('none');
 
                                     } : async () => {
                                         changeIsBreak(true);
-                                        const tr = setInterval(() => {
-                                            clearInterval(int);
-                                            clearInterval(up);
-                                        }, 6000);
-                                        clearInterval(tr);
-
-
+                                        Cookies.set('dailyWork', stop);
+                                        chagneCount(stop);
+                                        changeDisplayTime('1');
+                                        changeClickAllow('all');
                                     }
                                 }>
                                     {
@@ -217,14 +233,14 @@ export default function Work() {
                                 </div>
                             </div>
                             <span id={s.mot}>Keep up the good Work!😊</span> <br />
-                            {/* <span>Total work duration: <br />
+                            <span style={{ opacity: displayTime }}>Total work duration: <br />
                                 <span id={s.tim}> {Math.floor(showCount / 60)} hrs : {showCount % 60} mins <br /></span>
-                                (This count updates every 30 mins)
+                                (This timer updates every 1 min, please be patient)
 
-                            </span> */}
+                            </span>
 
                         </div>
-                    </div><div id={s.mainItems}>
+                    </div><div id={s.mainItems} style={{ pointerEvents: clickAllow }}>
                             <div id={s.links}>
                                 <Link href='/forms/candidates' onClick={() => {
                                     update();
@@ -263,12 +279,12 @@ export default function Work() {
                                         Apply Leave
                                     </div></Link>
                                 <Link href='/'>
-                                    <div className={s.link} id={s.logout} onClick={() => {
-                                        upLogout();
-                                        update().then(() => {
+                                    <div className={s.link} id={s.logout} onClick={async () => {
+                                        await setDoc(doc(db, "dailyWork", emailFinal), {
+                                            [`${mom}`]: parseInt(Cookies.get('dailyWork'))
+                                        }, { merge: true, mergeFields: true }).then(() => {
                                             router.push('/dashboard');
                                         });
-
                                     }}>
                                         Logout <br />
                                     </div></Link>

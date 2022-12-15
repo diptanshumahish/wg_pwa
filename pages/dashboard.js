@@ -19,8 +19,6 @@ export default function Dashboard() {
         Cookies.get('isLogged') == 'logged'
             ? changeLog(true)
             : changeLog(false);
-
-
     }, [])
 
 
