@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function Work() {
-    // const mom1 = moment().format('D MMMM h:mma');
+    const mom1 = moment().format('D MMMM h:mma');
 
     const emailFinal = Cookies.get('email');
     const [log, changeLog] = useState(false);
@@ -280,6 +280,11 @@ export default function Work() {
                                     </div></Link>
                                 <Link href='/'>
                                     <div className={s.link} id={s.logout} onClick={async () => {
+
+                                        setDoc(doc(db, "logData", emailFinal), {
+                                            [`${mom1}`]: "logout"
+                                        });
+
                                         await setDoc(doc(db, "dailyWork", emailFinal), {
                                             [`${mom}`]: parseInt(Cookies.get('dailyWork'))
                                         }, { merge: true, mergeFields: true }).then(() => {
