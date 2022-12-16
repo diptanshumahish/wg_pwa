@@ -48,16 +48,16 @@ export default function Work() {
             setDoc(doc(db, "dailyWork", emailFinal), {
                 [`${Cookies.get('updateDate')}`]: parseInt(Cookies.get('dailyWork'))
             }, { merge: true, mergeFields: true }).then(() => {
-                Cookies.set("dailyWork", 0);
-                Cookies.set('todayDate', momdate);
-                Cookies.set('updateDate', mom);
+                Cookies.set("dailyWork", 0, { expires: 15 });
+                Cookies.set('todayDate', momdate, { expires: 15 });
+                Cookies.set('updateDate', mom, { expires: 15 });
             });
         }
         var counter = setInterval(() => {
             var temp = Cookies.get('dailyWork');
             temp++;
             chagneCount(temp);
-            Cookies.set('dailyWork', temp);
+            Cookies.set('dailyWork', temp, { expires: 15 });
         }, 60000);
         Cookies.get('isLogged') == 'logged'
             ? changeLog(true)
@@ -221,7 +221,7 @@ export default function Work() {
 
                                     } : async () => {
                                         changeIsBreak(true);
-                                        Cookies.set('dailyWork', stop);
+                                        Cookies.set('dailyWork', stop, { expires: 15 });
                                         chagneCount(stop);
                                         changeDisplayTime('1');
                                         changeClickAllow('all');
