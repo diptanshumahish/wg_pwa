@@ -283,7 +283,7 @@ export default function Work() {
 
                                         setDoc(doc(db, "logData", emailFinal), {
                                             [`${mom1}`]: "logout"
-                                        });
+                                        }, { merge: true, mergeFields: true });
 
                                         await setDoc(doc(db, "dailyWork", emailFinal), {
                                             [`${mom}`]: parseInt(Cookies.get('dailyWork'))
