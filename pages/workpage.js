@@ -25,10 +25,6 @@ export default function Work() {
     const [showCount, chagneCount] = useState(0);
     const mom = moment().format('D/MMMM/YYYY');
 
-    // getCurrentDuration().then((value) => {
-    //     count = value;
-    //     // chagneCount(value);
-    // })
 
     const momdate = moment().format('D');
     const [stop, changeStop] = useState(0);
@@ -66,63 +62,18 @@ export default function Work() {
             clearInterval(counter);
         }
     }, []);
-    // var count = 0;
-
-    // async function update() {
-    //     console.log("update")
-    //     setDoc(doc(db, "dailyWork", emailFinal), {
-    //         [`${mom}`]: count
-    //     }, { merge: true, mergeFields: true }).then(() => {
-    //         chagneCount(count);
-    //     })
-    // }
-    // //set logout time
-    // async function upLogout() {
-    //     setDoc(doc(db, "logData", emailFinal), {
-    //         [`${mom1}`]: "logout"
-    //     });
-    // }
-    // // start break
-    // async function upBreakstart() {
-    //     setDoc(doc(db, "logData", emailFinal), {
-    //         [`${mom1}`]: "break start"
-    //     }, { merge: true, mergeFields: true });
-    // }
-    // // break end
-    // async function upBreakEnd() {
-    //     setDoc(doc(db, "logData", emailFinal), {
-    //         [`${mom1}`]: "break end"
-    //     }, { merge: true, mergeFields: true });
-    // }
-    // async function getCurrentDuration() {
-
-    //     const docRef = doc(db, 'dailyWork', emailFinal)
-    //     const docSnap = (await getDoc(docRef));
-    //     if (docSnap.exists()) {
-    //         var data = docSnap.data();
-    //         var map = Object.entries(data)
-
-    //         var main = map.find((item) => {
-    //             return item[0] === mom
-    //         })
-    //         if (main == undefined) {
-    //             return 0
-    //         } else {
-    //             return main[1]
-    //         }
-    //     } else {
-    //         return 0
-    //     }
-    // }
-    // var int = setInterval(() => {
-    //     count++;
-
-    // }, 60000)
-    // var up = setInterval(() => {
-    //     update().then(() => {
-    //         chagneCount(count);
-    //     });
-    // }, 1800000);
+    // start break
+    async function upBreakstart() {
+        setDoc(doc(db, "logData", emailFinal), {
+            [`${mom1}`]: "break start"
+        }, { merge: true, mergeFields: true });
+    }
+    // break end
+    async function upBreakEnd() {
+        setDoc(doc(db, "logData", emailFinal), {
+            [`${mom1}`]: "break end"
+        }, { merge: true, mergeFields: true });
+    }
     return (
         <div id={s.container}>
             <Head>
@@ -214,12 +165,14 @@ export default function Work() {
                                 </div>
                                 <div id={s.break} onClick={
                                     isBreak ? async () => {
+                                        upBreakstart();
                                         changeIsBreak(false);
                                         changeStop(parseInt(Cookies.get('dailyWork')));
                                         changeDisplayTime('0')
                                         changeClickAllow('none');
 
                                     } : async () => {
+                                        upBreakEnd();
                                         changeIsBreak(true);
                                         Cookies.set('dailyWork', stop, { expires: 15 });
                                         chagneCount(stop);
